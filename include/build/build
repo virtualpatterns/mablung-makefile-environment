@@ -1,0 +1,94 @@
+
+.PHONY: build build-folder copy-folder ignore-folder debug debug-folder
+
+currentSourcePath := $(CURDIR)
+currentReleasePath := $(strip \
+												$(if \
+													$(findstring /source/esmodule,$(currentSourcePath)),\
+													$(subst /source/esmodule,/release/commonjs,$(currentSourcePath)) \
+													$(subst /source/esmodule,/release/esmodule,$(currentSourcePath)),\
+													$(subst /source,/release,$(currentSourcePath))))
+
+# $(info --------------------)
+# $(info currentSourcePath = $(currentSourcePath))
+# $(info currentReleasePath = $(currentReleasePath))
+# $(info --------------------)
+
+sourcePath :=	$(call contentOf,.)
+releasePath := $(foreach \
+								path,\
+								$(foreach \
+									path,\
+									$(sourcePath),\
+									$(if \
+										$(call contentOf,$(path)),\
+										$(if \
+											$(wildcard $(path)/makefile),\
+											$(path)/.make-folder,\
+											$(path)/.build-folder),\
+										$(addsuffix /$(path),$(currentReleasePath)))),\
+								$(if \
+									$(findstring /release/commonjs,$(path)),\
+									$(patsubst %.js,%.cjs,$(path)),\
+									$(path)))
+
+%/.make-folder:
+	@$(MAKE) --directory=$* --no-print-directory
+
+%/.build-folder:
+	@$(shx) mkdir -p $(strip \
+										$(if \
+											$(findstring esmodule,$*),\
+											$(addprefix $(currentReleasePath),/commonjs /esmodule),\
+											$(addsuffix /$*,$(currentReleasePath))))
+	@$(MAKE) --directory=$* --file=$(firstword $(realpath $(MAKEFILE_LIST))) --no-print-directory build-folder
+
+$(projectPath)/release/commonjs/%.cjs: babelFlag := --env-name commonjs --source-maps
+$(projectPath)/release/commonjs/%.cjs: $(projectPath)/source/esmodule/%.js
+	@$(shx) echo $(patsubst $(projectPath)/%,%,$@) ...
+	@$(babel) $< --out-file $@ $(babelFlag)
+
+$(projectPath)/release/esmodule/%.js: eslintFlag := --fix
+$(projectPath)/release/esmodule/%.js: babelFlag := --env-name esmodule --source-maps
+$(projectPath)/release/esmodule/%.js: $(projectPath)/source/esmodule/%.js
+	@$(shx) echo $(patsubst $(projectPath)/%,%,$@) ...
+	@$(eslint) $< $(eslintFlag)
+	@$(babel) $< --out-file $@ $(babelFlag)
+
+%/.DS_Store: ;
+%/.babelrc.json: ;
+%/.eslintrc.json: ;
+
+$(projectPath)/release/commonjs/%: $(projectPath)/source/esmodule/%
+	@$(shx) echo $(patsubst $(projectPath)/%,%,$@) ...
+	@$(shx) cp -R $< $@
+
+$(projectPath)/release/esmodule/%: $(projectPath)/source/esmodule/%
+	@$(shx) echo $(patsubst $(projectPath)/%,%,$@) ...
+	@$(shx) cp -R $< $@
+
+build: build-all
+
+build-all:
+	@$(shx) mkdir -p release
+	@$(MAKE) --directory=source --file=$(firstword $(realpath $(MAKEFILE_LIST))) --jobs --no-print-directory build-folder
+
+build-folder: $(releasePath)
+	@$(shx) echo -n 
+
+ifeq ($(words $(currentReleasePath)),2)
+copy-folder:
+	@$(shx) mkdir -p $(patsubst %/,%,$(dir $(currentReleasePath)))
+	@$(shx) cp -R $(currentSourcePath) $(patsubst %/,%,$(dir $(firstword $(currentReleasePath))))
+	@$(shx) rm -f $(firstword $(currentReleasePath))/makefile
+	@$(shx) cp -R $(currentSourcePath) $(patsubst %/,%,$(dir $(lastword $(currentReleasePath))))
+	@$(shx) rm -f $(lastword $(currentReleasePath))/makefile
+else
+copy-folder:
+	@$(shx) mkdir -p $(patsubst %/,%,$(dir $(currentReleasePath)))
+	@$(shx) cp -R $(currentSourcePath) $(patsubst %/,%,$(dir $(currentReleasePath)))
+	@$(shx) rm -f $(currentReleasePath)/makefile
+endif
+
+ignore-folder:
+	@$(shx) echo -n 
