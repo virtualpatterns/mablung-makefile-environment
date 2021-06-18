@@ -27,7 +27,7 @@ const Require = require;
   test.true(await _fsExtra.default.pathExists(`${FolderPath}/../../esmodule`));
 });
 (0, _ava.default)('MAKEFILE_PATH', test => {
-  test.deepEqual(Process.env['MAKEFILE_PATH'].split(' '), [Require.resolve('../../../makefile'), Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/common'), Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build/common'), Require.resolve('../../../include/build/build'), Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build/debug')]);
+  test.deepEqual(Process.env['MAKEFILE_PATH'].split(' '), [Require.resolve('../../../makefile'), Require.resolve('../../../include/common'), Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/common'), Require.resolve('../../../include/build/common'), Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build/common'), Require.resolve('../../../include/build/build'), Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build/build'), Require.resolve('../../../include/build/debug'), Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build/debug')]);
 });
 (0, _ava.default)('.babelrc.json', async test => {
   test.false(await _fsExtra.default.pathExists(`${FolderPath}/../../.babelrc.json`));
@@ -35,22 +35,46 @@ const Require = require;
 (0, _ava.default)('.eslintrc.json', async test => {
   test.false(await _fsExtra.default.pathExists(`${FolderPath}/../../.eslintrc.json`));
 });
-(0, _ava.default)('index.js', async test => {
-  test.true((await Promise.resolve().then(() => _interopRequireWildcard(require("./index.cjs")))).OK);
+(0, _ava.default)("../../resource/index.cjs", async test => {
+  test.truthy((await Promise.resolve().then(() => _interopRequireWildcard(require("../../resource/index.cjs")))).OK);
 });
-(0, _ava.default)('resource/copy/makefile', async test => {
+(0, _ava.default)('../../resource/index.json', async test => {
+  test.true(_json.default.parse(await _fsExtra.default.readFile(Require.resolve('../../resource/index.json'), {
+    'encoding': 'utf-8'
+  })).OK);
+});
+(0, _ava.default)('../../resource/copy/makefile', async test => {
+  test.false(await _fsExtra.default.pathExists(`${FolderPath}/../../resource/copy/makefile`));
+});
+(0, _ava.default)('../../resource/copy/index.json', async test => {
+  test.true(_json.default.parse(await _fsExtra.default.readFile(Require.resolve('../../resource/copy/index.json'), {
+    'encoding': 'utf-8'
+  })).OK);
+});
+(0, _ava.default)('../../resource/empty', async test => {
+  test.true(await _fsExtra.default.pathExists(`${FolderPath}/../../resource/empty`));
+});
+(0, _ava.default)('../../resource/ignore', async test => {
+  test.false(await _fsExtra.default.pathExists(`${FolderPath}/../../resource/ignore`));
+});
+(0, _ava.default)("./resource/index.cjs", async test => {
+  test.truthy((await Promise.resolve().then(() => _interopRequireWildcard(require("./resource/index.cjs")))).OK);
+});
+(0, _ava.default)('./resource/index.json', async test => {
+  test.true(_json.default.parse(await _fsExtra.default.readFile(Require.resolve('./resource/index.json'), {
+    'encoding': 'utf-8'
+  })).OK);
+});
+(0, _ava.default)('./resource/copy/makefile', async test => {
   test.false(await _fsExtra.default.pathExists(`${FolderPath}/resource/copy/makefile`));
 });
-(0, _ava.default)('resource/copy/index.json', async test => {
+(0, _ava.default)('./resource/copy/index.json', async test => {
   test.true(_json.default.parse(await _fsExtra.default.readFile(Require.resolve('./resource/copy/index.json'), {
     'encoding': 'utf-8'
   })).OK);
 });
-(0, _ava.default)('resource/ignore/makefile', async test => {
-  test.false(await _fsExtra.default.pathExists(`${FolderPath}/resource/ignore/makefile`));
-});
-(0, _ava.default)('resource/ignore/index.json', async test => {
-  test.false(await _fsExtra.default.pathExists(`${FolderPath}/resource/ignore/index.json`));
+(0, _ava.default)('./resource/ignore', async test => {
+  test.false(await _fsExtra.default.pathExists(`${FolderPath}/resource/ignore`));
 });
 
 //# sourceMappingURL=index.test.cjs.map

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.OK = void 0;
 const Require = require;
-const OK = Require.resolve("./index.test.cjs");
+const OK = Require.resolve('./index.json');
 exports.OK = OK;
 
 //# sourceMappingURL=index.cjs.map

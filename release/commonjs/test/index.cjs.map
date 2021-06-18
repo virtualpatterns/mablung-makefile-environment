@@ -1,1 +1,1 @@
-{"version":3,"sources":["../../../source/esmodule/test/index.js"],"names":[],"mappings":";;;;;;AAAO,MAAM,EAAE,GAAG,IAAX","file":"index.cjs","sourcesContent":["export const OK = true\n"]}
+{"version":3,"sources":["../../../source/esmodule/test/index.js"],"names":[],"mappings":";;;;;;AAAA,MAAM,OAAO,GAAb;AACO,MAAM,EAAE,GAAG,OAAO,CAAC,OAAR,CAAgB,kBAAhB,CAAX","file":"index.cjs","sourcesContent":["const Require = __require\nexport const OK = Require.resolve('./index.test.js')\n"]}

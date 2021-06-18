@@ -19,9 +19,13 @@ Test('esmodule', async (test) => {
 Test('MAKEFILE_PATH', (test) => {
   test.deepEqual(Process.env['MAKEFILE_PATH'].split(' '), [
   Require.resolve('../../../makefile'),
+  Require.resolve('../../../include/common'),
   Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/common'),
+  Require.resolve('../../../include/build/common'),
   Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build/common'),
   Require.resolve('../../../include/build/build'),
+  Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build/build'),
+  Require.resolve('../../../include/build/debug'),
   Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build/debug')]);
 
 });
@@ -34,24 +38,48 @@ Test('.eslintrc.json', async (test) => {
   test.false(await FileSystem.pathExists(`${FolderPath}/../../.eslintrc.json`));
 });
 
-Test('index.js', async (test) => {
-  test.true((await import('./index.js')).OK);
+Test('../../resource/index.js', async (test) => {
+  test.truthy((await import('../../resource/index.js')).OK);
 });
 
-Test('resource/copy/makefile', async (test) => {
+Test('../../resource/index.json', async (test) => {
+  test.true(JSON5.parse(await FileSystem.readFile(Require.resolve('../../resource/index.json'), { 'encoding': 'utf-8' })).OK);
+});
+
+Test('../../resource/copy/makefile', async (test) => {
+  test.false(await FileSystem.pathExists(`${FolderPath}/../../resource/copy/makefile`));
+});
+
+Test('../../resource/copy/index.json', async (test) => {
+  test.true(JSON5.parse(await FileSystem.readFile(Require.resolve('../../resource/copy/index.json'), { 'encoding': 'utf-8' })).OK);
+});
+
+Test('../../resource/empty', async (test) => {
+  test.true(await FileSystem.pathExists(`${FolderPath}/../../resource/empty`));
+});
+
+Test('../../resource/ignore', async (test) => {
+  test.false(await FileSystem.pathExists(`${FolderPath}/../../resource/ignore`));
+});
+
+Test('./resource/index.js', async (test) => {
+  test.truthy((await import('./resource/index.js')).OK);
+});
+
+Test('./resource/index.json', async (test) => {
+  test.true(JSON5.parse(await FileSystem.readFile(Require.resolve('./resource/index.json'), { 'encoding': 'utf-8' })).OK);
+});
+
+Test('./resource/copy/makefile', async (test) => {
   test.false(await FileSystem.pathExists(`${FolderPath}/resource/copy/makefile`));
 });
 
-Test('resource/copy/index.json', async (test) => {
+Test('./resource/copy/index.json', async (test) => {
   test.true(JSON5.parse(await FileSystem.readFile(Require.resolve('./resource/copy/index.json'), { 'encoding': 'utf-8' })).OK);
 });
 
-Test('resource/ignore/makefile', async (test) => {
-  test.false(await FileSystem.pathExists(`${FolderPath}/resource/ignore/makefile`));
-});
-
-Test('resource/ignore/index.json', async (test) => {
-  test.false(await FileSystem.pathExists(`${FolderPath}/resource/ignore/index.json`));
+Test('./resource/ignore', async (test) => {
+  test.false(await FileSystem.pathExists(`${FolderPath}/resource/ignore`));
 });
 
 //# sourceMappingURL=index.test.js.map

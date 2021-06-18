@@ -1,0 +1,2 @@
+
+include $(projectPath)/node_modules/@virtualpatterns/mablung-makefile/include/common
