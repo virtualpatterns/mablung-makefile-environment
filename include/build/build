@@ -19,7 +19,7 @@ filterReleaseContent =	$(call $\
 																	$(projectPath)/release/esmodule%,$\
 																	$(1))))))
 
-include $(projectPath)/node_modules/@virtualpatterns/mablung-makefile/include/build/build
+include $(mablungMakefileEnvironmentPath)/node_modules/@virtualpatterns/mablung-makefile/include/build/build
 	
 ifneq ($(CURDIR),$(projectPath))
 

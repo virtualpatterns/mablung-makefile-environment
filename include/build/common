@@ -1,2 +1,2 @@
 
-include $(projectPath)/node_modules/@virtualpatterns/mablung-makefile/include/build/common
+include $(mablungMakefileEnvironmentPath)/node_modules/@virtualpatterns/mablung-makefile/include/build/common
