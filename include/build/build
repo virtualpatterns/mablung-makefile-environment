@@ -31,18 +31,18 @@ ifneq ($(CURDIR),$(projectPath))
 
 # Do not change this rule ... as it is it will replace the same rule in the included makefile
 $(projectPath)/release/%.create-folder:
-	@$(shx) echo create ... $(patsubst $(projectPath)/%,%,$(patsubst %.create-folder,%,$@))
 	@$(shx) mkdir -p $(patsubst %.create-folder,%,$@)
-	$(if $\
-		$(findstring /release/esmodule,$(patsubst %.create-folder,%,$@)),$\
-		@$(shx) echo create ... $(patsubst $(projectPath)/%,%,$(subst /release/esmodule,/release/commonjs,$(patsubst %.create-folder,%,$@))),$\
-		@$(shx) echo -n)
 	$(if $\
 		$(findstring /release/esmodule,$(patsubst %.create-folder,%,$@)),$\
 		@$(shx) mkdir -p $(subst /release/esmodule,/release/commonjs,$(patsubst %.create-folder,%,$@)),$\
 		@$(shx) echo -n)
 
 # $(info $$(projectPath)/release/%.create-folder: in mablung-makefile-environment/include/build/build)
+# @$(shx) echo create ... $(patsubst $(projectPath)/%,%,$(patsubst %.create-folder,%,$@))
+# $(if $\
+# 	$(findstring /release/esmodule,$(patsubst %.create-folder,%,$@)),$\
+# 	@$(shx) echo create ... $(patsubst $(projectPath)/%,%,$(subst /release/esmodule,/release/commonjs,$(patsubst %.create-folder,%,$@))),$\
+# 	@$(shx) echo -n)
 
 $(projectPath)/release/%.cjs: babelFlag += --env-name commonjs
 $(projectPath)/release/%.js: babelFlag += --env-name esmodule
