@@ -20,7 +20,7 @@ filterReleaseContent =	$(call $\
 																	$(1))))))
 
 include $(projectPath)/node_modules/@virtualpatterns/mablung-makefile/include/build/build
-
+	
 ifneq ($(CURDIR),$(projectPath))
 
 # $(info --------------------)
@@ -29,20 +29,20 @@ ifneq ($(CURDIR),$(projectPath))
 # $(info releaseContent = $(patsubst $(projectPath)/%,%,$(releaseContent)))
 # $(info --------------------)
 
-# $(projectPath)/release/commonjs.build-folder: $(projectPath)/source/esmodule
-# 	@$(shx) echo build .... $(patsubst $(projectPath)/%,%,$(patsubst %.build-folder,%,$@))
-# 	@$(shx) mkdir -p $(patsubst %.build-folder,%,$@)
-# 	@$(MAKE) --directory=$< --makefile=$(firstword $(realpath $(MAKEFILE_LIST))) --no-print-directory build-folder
+# Do not change this rule ... as it is it will replace the same rule in the included makefile
+$(projectPath)/release/%.create-folder:
+	@$(shx) echo create ... $(patsubst $(projectPath)/%,%,$(patsubst %.create-folder,%,$@))
+	@$(shx) mkdir -p $(patsubst %.create-folder,%,$@)
+	$(if $\
+		$(findstring /release/esmodule,$(patsubst %.create-folder,%,$@)),$\
+		@$(shx) echo create ... $(patsubst $(projectPath)/%,%,$(subst /release/esmodule,/release/commonjs,$(patsubst %.create-folder,%,$@))),$\
+		@$(shx) echo -n)
+	$(if $\
+		$(findstring /release/esmodule,$(patsubst %.create-folder,%,$@)),$\
+		@$(shx) mkdir -p $(subst /release/esmodule,/release/commonjs,$(patsubst %.create-folder,%,$@)),$\
+		@$(shx) echo -n)
 
-# $(projectPath)/release/commonjs.build-folder: $(projectPath)/source/esmodule
-# 	$(info match.build-folder)
-# 	@$(shx) mkdir -p $(patsubst %.build-folder,%,$@)
-# 	@$(MAKE) --directory=$< --makefile=$(firstword $(realpath $(MAKEFILE_LIST))) --no-print-directory build-folder
-
-# $(projectPath)/release/commonjs/%.build-folder: $(projectPath)/source/esmodule/%
-# 	$(info $*.build-folder)
-# 	@$(shx) mkdir -p $(patsubst %.build-folder,%,$@)
-# 	@$(MAKE) --directory=$< --makefile=$(firstword $(realpath $(MAKEFILE_LIST))) --no-print-directory build-folder
+# $(info $$(projectPath)/release/%.create-folder: in mablung-makefile-environment/include/build/build)
 
 $(projectPath)/release/%.cjs: babelFlag += --env-name commonjs
 $(projectPath)/release/%.js: babelFlag += --env-name esmodule
@@ -52,141 +52,20 @@ $(projectPath)/release/commonjs/%.cjs: $(projectPath)/source/esmodule/%.js
 	@$(shx) echo create ... $(patsubst $(projectPath)/%,%,$@)
 	@$(babel) $< --out-file $@ $(babelFlag)
 
-# $(projectPath)/release/commonjs: $(projectPath)/source/esmodule
-# 	@$(shx) echo copy ..... $(patsubst $(projectPath)/%,%,$@)
-# 	@$(shx) cp -R $< $@
-
-$(projectPath)/release/commonjs: $(projectPath)/source/esmodule
-	@$(shx) mkdir -p $@
-
-# $(info IN mablung-makefile-environment/include/build/build $$(projectPath)/release/commonjs:)
-# @$(shx) echo create ... $(patsubst $(projectPath)/%,%,$@)
-
 $(projectPath)/release/commonjs/%: $(projectPath)/source/esmodule/%
 	@$(shx) echo copy ..... $(patsubst $(projectPath)/%,%,$<)
 	@$(shx) cp -R $< $@
 
 ifeq ($(findstring /source/esmodule,$(CURDIR)),/source/esmodule)
 
-pre-build-folder:: releasePath := $(releasePath) $(subst /source/esmodule,/release/commonjs,$(sourcePath))
-pre-build-folder::
-	@$(shx) mkdir -p $(lastword $(releasePath))
-
-# $(info IN mablung-makefile-environment/include/build/build)
-# @$(shx) echo create ... $(patsubst $(projectPath)/%,%,$(lastword $(releasePath)))
-
-copy-folder:: releasePath := $(releasePath) $(subst /source/esmodule,/release/commonjs,$(sourcePath))
+# Do not change this rule ... as it is it will be executed after the same rule in the included makefile
 copy-folder::
-	@$(shx) cp -R $(sourcePath) $(patsubst %/,%,$(dir $(lastword $(releasePath))))
-	@$(shx) rm -f $(lastword $(releasePath))/makefile
+	@$(shx) echo copy ..... $(patsubst $(projectPath)/%,%,$(sourcePath))
+	@$(shx) cp -R $(sourcePath) $(patsubst %/,%,$(dir $(subst /source/esmodule,/release/commonjs,$(sourcePath))))
+	@$(shx) rm -f $(subst /source/esmodule,/release/commonjs,$(sourcePath))/makefile
 
-# @$(shx) echo copy ..... $(patsubst $(projectPath)/%,%,$(subst /release/commonjs,/source/esmodule,$(lastword $(releasePath))))
-# @$(shx) echo delete ... $(patsubst $(projectPath)/%,%,$(lastword $(releasePath))/makefile)
-
-endif
-
-# copy-folder::
-# 	$(eval releasePath := $(subst /source/esmodule/,/release/commonjs/,$(sourcePath)))
-# 	@$(shx) echo copy ..... $(patsubst $(projectPath)/%,%,$(releasePath))
-# 	@$(shx) cp -R $(sourcePath) $(patsubst %/,%,$(dir $(releasePath)))
-# 	@$(shx) rm -f $(releasePath)/makefile
+# @$(shx) echo delete ... $(patsubst $(projectPath)/%,%,$(subst /source/esmodule,/release/commonjs,$(sourcePath))/makefile)
 
 endif
 
-# .PHONY: build build-folder copy-folder ignore-folder
-
-# currentSourcePath := $(CURDIR)
-# currentReleasePath := $(strip \
-# 												$(if \
-# 													$(findstring /source/esmodule,$(currentSourcePath)),\
-# 													$(subst /source/esmodule,/release/commonjs,$(currentSourcePath)) \
-# 													$(subst /source/esmodule,/release/esmodule,$(currentSourcePath)),\
-# 													$(subst /source,/release,$(currentSourcePath))))
-
-# # $(info --------------------)
-# # $(info currentSourcePath = $(currentSourcePath))
-# # $(info currentReleasePath = $(currentReleasePath))
-# # $(info --------------------)
-
-# sourcePath :=	$(call contentOf,.)
-# releasePath := $(foreach \
-# 								path,\
-# 								$(foreach \
-# 									path,\
-# 									$(sourcePath),\
-# 									$(if \
-# 										$(call contentOf,$(path)),\
-# 										$(if \
-# 											$(wildcard $(path)/makefile),\
-# 											$(path)/.make-folder,\
-# 											$(path)/.build-folder),\
-# 										$(addsuffix /$(path),$(currentReleasePath)))),\
-# 								$(if \
-# 									$(findstring /release/commonjs,$(path)),\
-# 									$(patsubst %.js,%.cjs,$(path)),\
-# 									$(path)))
-
-# %/.make-folder:
-# 	@$(MAKE) --directory=$* --no-print-directory
-
-# %/.build-folder:
-# 	@$(shx) mkdir -p $(strip \
-# 										$(if \
-# 											$(findstring esmodule,$*),\
-# 											$(addprefix $(currentReleasePath),/commonjs /esmodule),\
-# 											$(addsuffix /$*,$(currentReleasePath))))
-# 	@$(MAKE) --directory=$* --makefile=$(firstword $(realpath $(MAKEFILE_LIST))) --no-print-directory build-folder
-
-# $(projectPath)/release/commonjs/%.cjs: babelFlag := --env-name commonjs --source-maps
-# $(projectPath)/release/commonjs/%.cjs: $(projectPath)/source/esmodule/%.js
-# 	@$(shx) echo $(patsubst $(projectPath)/%,%,$@) ...
-# 	@$(babel) $< --out-file $@ $(babelFlag)
-
-# $(projectPath)/release/esmodule/%.js: eslintFlag := --fix
-# $(projectPath)/release/esmodule/%.js: babelFlag := --env-name esmodule --source-maps
-# $(projectPath)/release/esmodule/%.js: $(projectPath)/source/esmodule/%.js
-# 	@$(shx) echo $(patsubst $(projectPath)/%,%,$@) ...
-# 	@$(eslint) $< $(eslintFlag)
-# 	@$(babel) $< --out-file $@ $(babelFlag)
-
-# %/.DS_Store: ;
-# %/.babelrc.json: ;
-# %/.eslintrc.json: ;
-
-# $(projectPath)/release/commonjs/%: $(projectPath)/source/esmodule/%
-# 	@$(shx) echo $(patsubst $(projectPath)/%,%,$@) ...
-# 	@$(shx) cp -R $< $@
-
-# $(projectPath)/release/esmodule/%: $(projectPath)/source/esmodule/%
-# 	@$(shx) echo $(patsubst $(projectPath)/%,%,$@) ...
-# 	@$(shx) cp -R $< $@
-
-# $(projectPath)/release/%: $(projectPath)/source/%
-# 	@$(shx) echo $(patsubst $(projectPath)/%,%,$@) ...
-# 	@$(shx) cp -R $< $@
-
-# build: build-all
-
-# build-all:
-# 	@$(shx) mkdir -p release
-# 	@$(MAKE) --directory=source --makefile=$(firstword $(realpath $(MAKEFILE_LIST))) --jobs --no-print-directory build-folder
-
-# build-folder: $(releasePath)
-# 	@$(shx) echo -n 
-
-# ifeq ($(words $(currentReleasePath)),2)
-# copy-folder:
-# 	@$(shx) mkdir -p $(patsubst %/,%,$(dir $(currentReleasePath)))
-# 	@$(shx) cp -R $(currentSourcePath) $(patsubst %/,%,$(dir $(firstword $(currentReleasePath))))
-# 	@$(shx) rm -f $(firstword $(currentReleasePath))/makefile
-# 	@$(shx) cp -R $(currentSourcePath) $(patsubst %/,%,$(dir $(lastword $(currentReleasePath))))
-# 	@$(shx) rm -f $(lastword $(currentReleasePath))/makefile
-# else
-# copy-folder:
-# 	@$(shx) mkdir -p $(patsubst %/,%,$(dir $(currentReleasePath)))
-# 	@$(shx) cp -R $(currentSourcePath) $(patsubst %/,%,$(dir $(currentReleasePath)))
-# 	@$(shx) rm -f $(currentReleasePath)/makefile
-# endif
-
-# ignore-folder:
-# 	@$(shx) echo -n 
+endif

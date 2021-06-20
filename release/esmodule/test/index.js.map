@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../source/esmodule/test/index.js"],"names":[],"mappings":"yDAAA,MAAM,OAAO,GAAb,cAAc,CAAC,MAAM,CAAC,IAAP,CAAY,GAAb,CAAd;AACA,OAAO,MAAM,EAAE,GAAG,OAAO,CAAC,OAAR,CAAgB,iBAAhB,CAAX","file":"index.js","sourcesContent":["const Require = __require\nexport const OK = Require.resolve('./index.test.js')\n"]}
