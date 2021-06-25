@@ -42,7 +42,7 @@
     "test": "make test"
   },
   "type": "module",
-  "version": "0.0.1-7",
+  "version": "0.0.1-8",
   "dependencies": {
     "@virtualpatterns/mablung-makefile": "virtualpatterns/mablung-makefile"
   },
