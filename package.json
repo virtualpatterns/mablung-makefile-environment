@@ -9,7 +9,9 @@
       "--no-warnings",
       "--unhandled-rejections=strict"
     ],
-    "require": [],
+    "require": [
+      "@virtualpatterns/mablung-source-map-support/install"
+    ],
     "verbose": true
   },
   "c8": {
@@ -41,20 +43,23 @@
   },
   "type": "module",
   "version": "0.0.1-6",
+  "dependencies": {
+    "@virtualpatterns/mablung-makefile": "virtualpatterns/mablung-makefile"
+  },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
     "@babel/core": "^7.14.6",
-    "@babel/eslint-parser": "^7.14.5",
+    "@babel/eslint-parser": "^7.14.7",
     "@babel/plugin-proposal-export-default-from": "^7.14.5",
     "@babel/plugin-syntax-import-meta": "^7.10.4",
-    "@babel/preset-env": "^7.14.5",
+    "@babel/preset-env": "^7.14.7",
     "@pwn/is": "^1.0.2",
     "@virtualpatterns/mablung-babel-plugin-replace-identifier": "virtualpatterns/mablung-babel-plugin-replace-identifier.git",
     "@virtualpatterns/mablung-babel-plugin-replace-string-literal": "virtualpatterns/mablung-babel-plugin-replace-string-literal",
-    "@virtualpatterns/mablung-makefile": "virtualpatterns/mablung-makefile",
+    "@virtualpatterns/mablung-check-dependency": "virtualpatterns/mablung-check-dependency",
+    "@virtualpatterns/mablung-source-map-support": "virtualpatterns/mablung-source-map-support.git",
     "ava": "^3.15.0",
     "c8": "^7.7.3",
-    "depcheck": "^1.4.1",
     "eslint": "^7.29.0",
     "eslint-plugin-babel": "^5.3.1",
     "fs-extra": "^10.0.0",
@@ -70,6 +75,5 @@
     "eslint": "^7.29.0",
     "npm-check-updates": "^11.7.1",
     "shx": "^0.3.3"
-  },
-  "dependencies": {}
+  }
 }

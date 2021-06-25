@@ -1,17 +1,14 @@
 
+mablung-makefile-environment-path := $(patsubst %/,%,$(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
+# $(info mablung-makefile-environment-path := $(mablung-makefile-environment-path))
+
 ifeq ($(origin projectPath),undefined)
 export projectPath := $(CURDIR)
 endif
 
-.PHONY: refresh upgrade clean run test pre-release release build build-all build-folder copy-folder ignore-folder debug debug-all pre-debug-all debug-folder pre-debug-folder
-
-ifeq ($(origin mablungMakefileEnvironmentPath),undefined)
-export mablungMakefileEnvironmentPath := $(patsubst %/,%,$(dir $(lastword $(realpath $(MAKEFILE_LIST)))))
-endif
-
-include $(mablungMakefileEnvironmentPath)/include/common
-include $(mablungMakefileEnvironmentPath)/include/build/common
-include $(mablungMakefileEnvironmentPath)/include/build/build
-include $(mablungMakefileEnvironmentPath)/include/build/debug
+include $(mablung-makefile-environment-path)/include/common
+include $(mablung-makefile-environment-path)/include/build/common
+include $(mablung-makefile-environment-path)/include/build/build
+include $(mablung-makefile-environment-path)/include/build/debug
 
 .DEFAULT_GOAL := build

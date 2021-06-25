@@ -1,70 +1,93 @@
 
+mablung-makefile-environment-include-build-path := $(patsubst %/,%,$(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
+# $(info mablung-makefile-environment-include-build-path := $(mablung-makefile-environment-include-build-path))
+
+ifeq ($(CURDIR),$(projectPath))
+
+include $(mablung-makefile-environment-include-build-path)/../../node_modules/@virtualpatterns/mablung-makefile/include/build/build
+
+else
+
 ifndef filterEnvironmentReleaseContent
 filterEnvironmentReleaseContent = $(1)
 endif
 
 filterReleaseContent =	$(call $\
 													filterEnvironmentReleaseContent,$\
-													$(1) $\
-													$(patsubst $\
-														%.js,$\
-														%.cjs,$\
+													$(sort $\
 														$(patsubst $\
 															$(projectPath)/release/esmodule%,$\
 															$(projectPath)/release/commonjs%,$\
-															$(filter-out $\
-																%.make-folder $\
-																%.build-folder,$\
+															$(patsubst $\
+																%.js,$\
+																%.cjs,$\
 																$(filter $\
 																	$(projectPath)/release/esmodule%,$\
-																	$(1))))))
+																	$(1)))) $\
+														$(1)))
 
-include $(mablungMakefileEnvironmentPath)/node_modules/@virtualpatterns/mablung-makefile/include/build/build
+include $(mablung-makefile-environment-include-build-path)/../../node_modules/@virtualpatterns/mablung-makefile/include/build/build
 	
-ifneq ($(CURDIR),$(projectPath))
-
 # $(info --------------------)
-# $(info sourcePath = $(patsubst $(projectPath)/%,%,$(sourcePath)))
-# $(info sourceContent = $(patsubst $(projectPath)/%,%,$(sourceContent)))
-# $(info releaseContent = $(patsubst $(projectPath)/%,%,$(releaseContent)))
+# $(info buildContent = $(call trimProject,$(buildContent)))
+# $(info releaseContent = $(call trimProject,$(releaseContent)))
 # $(info --------------------)
 
-# Do not change this rule ... as it is it will replace the same rule in the included makefile
-$(projectPath)/release/%.create-folder:
-	@$(shx) mkdir -p $(patsubst %.create-folder,%,$@)
+# this rule replaces the same rule in the included makefile
+# $(info -- defining $$(projectPath)/release/%.create: in $(call trimProject,$(mablung-makefile-environment-include-build-path)/build))
+# $(info -- $$(projectPath)/release/%.create: in $(call trimProject,$(mablung-makefile-environment-include-build-path)/build))
+$(projectPath)/release/%.create:
+	@$(shx) echo create .... $(call trimProject,$(patsubst %.create,%,$@))
+	@$(shx) mkdir -p $(patsubst %.create,%,$@)
 	$(if $\
-		$(findstring /release/esmodule,$(patsubst %.create-folder,%,$@)),$\
-		@$(shx) mkdir -p $(subst /release/esmodule,/release/commonjs,$(patsubst %.create-folder,%,$@)),$\
-		@$(shx) echo -n)
+		$(findstring /release/esmodule,$(patsubst %.create,%,$@)),$\
+			@$(shx) echo create .... $(call trimProject,$(subst /release/esmodule,/release/commonjs,$(patsubst %.create,%,$@))))
+	$(if $\
+		$(findstring /release/esmodule,$(patsubst %.create,%,$@)),$\
+			@$(shx) mkdir -p $(subst /release/esmodule,/release/commonjs,$(patsubst %.create,%,$@)))
 
-# $(info $$(projectPath)/release/%.create-folder: in mablung-makefile-environment/include/build/build)
-# @$(shx) echo create ... $(patsubst $(projectPath)/%,%,$(patsubst %.create-folder,%,$@))
+# # Do not change this rule ... as it is it will replace the same rule in the included makefile
+# $(projectPath)/release/%.create:
+# 	@$(shx) mkdir -p $(patsubst %.create,%,$@)
+# 	$(if $\
+# 		$(findstring /release/esmodule,$(patsubst %.create,%,$@)),$\
+# 		@$(shx) mkdir -p $(subst /release/esmodule,/release/commonjs,$(patsubst %.create,%,$@)),$\
+# 		@$(shx) echo -n)
+
+# $(info $$(projectPath)/release/%.create: in mablung-makefile-environment/include/build/build)
+# @$(shx) echo create ... $(patsubst $(projectPath)/%,%,$(patsubst %.create,%,$@))
 # $(if $\
-# 	$(findstring /release/esmodule,$(patsubst %.create-folder,%,$@)),$\
-# 	@$(shx) echo create ... $(patsubst $(projectPath)/%,%,$(subst /release/esmodule,/release/commonjs,$(patsubst %.create-folder,%,$@))),$\
+# 	$(findstring /release/esmodule,$(patsubst %.create,%,$@)),$\
+# 	@$(shx) echo create ... $(patsubst $(projectPath)/%,%,$(subst /release/esmodule,/release/commonjs,$(patsubst %.create,%,$@))),$\
 # 	@$(shx) echo -n)
 
 $(projectPath)/release/%.cjs: babelFlag += --env-name commonjs
 $(projectPath)/release/%.js: babelFlag += --env-name esmodule
 
+$(projectPath)/release/commonjs%DS_Store: $(projectPath)/source/esmodule%DS_Store
+	@$(shx) echo ignore .... $(call trimProject,$<) to $(call trimProject,$@)
+$(projectPath)/release/commonjs%babelrc.json: $(projectPath)/source/esmodule%babelrc.json
+	@$(shx) echo ignore .... $(call trimProject,$<) to $(call trimProject,$@)
+$(projectPath)/release/commonjs%eslintrc.json: $(projectPath)/source/esmodule%eslintrc.json
+	@$(shx) echo ignore .... $(call trimProject,$<) to $(call trimProject,$@)
+
 $(projectPath)/release/commonjs/%.cjs: babelFlag := --env-name commonjs --source-maps
 $(projectPath)/release/commonjs/%.cjs: $(projectPath)/source/esmodule/%.js
-	@$(shx) echo create ... $(patsubst $(projectPath)/%,%,$@)
+	@$(shx) echo compile ... $(call trimProject,$<) to $(call trimProject,$@)
 	@$(babel) $< --out-file $@ $(babelFlag)
 
 $(projectPath)/release/commonjs/%: $(projectPath)/source/esmodule/%
-	@$(shx) echo copy ..... $(patsubst $(projectPath)/%,%,$<)
-	@$(shx) cp -R $< $@
+	@$(shx) echo copy ...... $(call trimProject,$<) to $(call trimProject,$(call trimFolderPath,$@))
+	@$(shx) cp -R $< $(call trimFolderPath,$@)
 
-ifeq ($(findstring /source/esmodule,$(CURDIR)),/source/esmodule)
+ifeq ($(findstring /source/esmodule/,$(CURDIR)),/source/esmodule/)
 
-# Do not change this rule ... as it is it will be executed after the same rule in the included makefile
-copy-folder::
-	@$(shx) echo copy ..... $(patsubst $(projectPath)/%,%,$(sourcePath))
-	@$(shx) cp -R $(sourcePath) $(patsubst %/,%,$(dir $(subst /source/esmodule,/release/commonjs,$(sourcePath))))
-	@$(shx) rm -f $(subst /source/esmodule,/release/commonjs,$(sourcePath))/makefile
-
-# @$(shx) echo delete ... $(patsubst $(projectPath)/%,%,$(subst /source/esmodule,/release/commonjs,$(sourcePath))/makefile)
+# this rule is executed after the same rule in the included makefile
+copy::
+	@$(shx) echo copy ...... $(call trimProject,$(CURDIR)) to $(call trimProject,$(call trimFolderPath,$(subst /source/esmodule/,/release/commonjs/,$(CURDIR))))
+	@$(shx) cp -R $(CURDIR) $(call trimFolderPath,$(subst /source/esmodule,/release/commonjs,$(CURDIR)))
+	@$(shx) echo delete .... $(call trimProject,$(subst /source/esmodule/,/release/commonjs/,$(CURDIR))/makefile)
+	@$(shx) rm -f $(subst /source/esmodule/,/release/commonjs/,$(CURDIR))/makefile
 
 endif
 
