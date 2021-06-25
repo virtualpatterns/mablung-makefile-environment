@@ -1,5 +1,5 @@
 
-mablung-makefile-environment-include-path := $(patsubst %/,%,$(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
+# mablung-makefile-environment-include-path := $(patsubst %/,%,$(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
 # $(info mablung-makefile-environment-include-path := $(mablung-makefile-environment-include-path))
 
-include $(mablung-makefile-environment-include-path)/../node_modules/@virtualpatterns/mablung-makefile/include/common
+include $(projectPath)/node_modules/@virtualpatterns/mablung-makefile/include/common

@@ -1,10 +1,10 @@
 
-mablung-makefile-environment-include-build-path := $(patsubst %/,%,$(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
+# mablung-makefile-environment-include-build-path := $(patsubst %/,%,$(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
 # $(info mablung-makefile-environment-include-build-path := $(mablung-makefile-environment-include-build-path))
 
 ifeq ($(CURDIR),$(projectPath))
 
-include $(mablung-makefile-environment-include-build-path)/../../node_modules/@virtualpatterns/mablung-makefile/include/build/build
+include $(projectPath)/node_modules/@virtualpatterns/mablung-makefile/include/build/build
 
 else
 
@@ -26,7 +26,7 @@ filterReleaseContent =	$(call $\
 																	$(1)))) $\
 														$(1)))
 
-include $(mablung-makefile-environment-include-build-path)/../../node_modules/@virtualpatterns/mablung-makefile/include/build/build
+include $(projectPath)/node_modules/@virtualpatterns/mablung-makefile/include/build/build
 	
 # $(info --------------------)
 # $(info buildContent = $(call trimProject,$(buildContent)))
