@@ -1,14 +1,18 @@
 
-mablung-makefile-environment-path := $(patsubst %/,%,$(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
-# $(info mablung-makefile-environment-path := $(mablung-makefile-environment-path))
+--mablung-makefile-environment-path := $(patsubst %/,%,$(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
+# $(info --mablung-makefile-environment-path := $(--mablung-makefile-environment-path))
 
-ifeq ($(origin projectPath),undefined)
-export projectPath := $(CURDIR)
+ifeq ($(origin project-path),undefined)
+export project-path := $(CURDIR)
 endif
 
-include $(mablung-makefile-environment-path)/include/common
-include $(mablung-makefile-environment-path)/include/build/common
-include $(mablung-makefile-environment-path)/include/build/build
-include $(mablung-makefile-environment-path)/include/build/debug
+ifeq ($(origin mablung-makefile-path),undefined)
+export mablung-makefile-path := $(patsubst %/,%,$(dir $(shell npx mablung-makefile-path)))
+endif
+
+include $(--mablung-makefile-environment-path)/include/common
+include $(--mablung-makefile-environment-path)/include/build/common
+include $(--mablung-makefile-environment-path)/include/build/build
+include $(--mablung-makefile-environment-path)/include/build/debug
 
 .DEFAULT_GOAL := build
