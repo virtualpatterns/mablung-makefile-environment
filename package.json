@@ -49,7 +49,7 @@
     "test": "make test"
   },
   "type": "module",
-  "version": "0.0.1-8",
+  "version": "0.0.1-9",
   "dependencies": {
     "@virtualpatterns/mablung-makefile": "virtualpatterns/mablung-makefile",
     "commander": "^8.0.0",
