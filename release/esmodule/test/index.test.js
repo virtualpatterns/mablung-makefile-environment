@@ -21,12 +21,12 @@ Test('MAKEFILE_PATH', (test) => {
   Require.resolve('../../../makefile'),
   Require.resolve('../../../include/common'),
   Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/common'),
-  Require.resolve('../../../include/build/common'),
-  Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build/common'),
-  Require.resolve('../../../include/build/build'),
-  Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build/build'),
-  Require.resolve('../../../include/build/debug'),
-  Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build/debug')]);
+  Require.resolve('../../../include/commit'),
+  Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/commit'),
+  Require.resolve('../../../include/build'),
+  Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build'),
+  Require.resolve('../../../include/debug'),
+  Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/debug')]);
 
 });
 

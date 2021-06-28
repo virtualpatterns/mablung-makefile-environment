@@ -27,7 +27,7 @@ const Require = require;
   test.true(await _fsExtra.default.pathExists(`${FolderPath}/../../esmodule`));
 });
 (0, _ava.default)('MAKEFILE_PATH', test => {
-  test.deepEqual(Process.env['MAKEFILE_PATH'].split(' '), [Require.resolve('../../../makefile'), Require.resolve('../../../include/common'), Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/common'), Require.resolve('../../../include/build/common'), Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build/common'), Require.resolve('../../../include/build/build'), Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build/build'), Require.resolve('../../../include/build/debug'), Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build/debug')]);
+  test.deepEqual(Process.env['MAKEFILE_PATH'].split(' '), [Require.resolve('../../../makefile'), Require.resolve('../../../include/common'), Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/common'), Require.resolve('../../../include/commit'), Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/commit'), Require.resolve('../../../include/build'), Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build'), Require.resolve('../../../include/debug'), Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/debug')]);
 });
 (0, _ava.default)('.babelrc.json', async test => {
   test.false(await _fsExtra.default.pathExists(`${FolderPath}/../../.babelrc.json`));

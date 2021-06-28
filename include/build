@@ -4,7 +4,7 @@
 
 ifeq ($(CURDIR),$(project-path))
 
-include $(mablung-makefile-path)/include/build/build
+include $(mablung-makefile-path)/include/build
 
 else
 
@@ -26,7 +26,7 @@ filter-release-content =	$(call $\
 																		$(1)))) $\
 															$(1)))
 
-include $(mablung-makefile-path)/include/build/build
+include $(mablung-makefile-path)/include/build
 	
 # $(info --------------------)
 # $(info build-content = $(call trim-project,$(build-content)))
@@ -54,7 +54,7 @@ $(project-path)/release/%.create:
 # 		@$(shx) mkdir -p $(subst /release/esmodule,/release/commonjs,$(patsubst %.create,%,$@)),$\
 # 		@$(shx) echo -n)
 
-# $(info $$(project-path)/release/%.create: in --mablung-makefile-environment/include/build/build)
+# $(info $$(project-path)/release/%.create: in --mablung-makefile-environment/include/build)
 # @$(shx) echo create ... $(patsubst $(project-path)/%,%,$(patsubst %.create,%,$@))
 # $(if $\
 # 	$(findstring /release/esmodule,$(patsubst %.create,%,$@)),$\
