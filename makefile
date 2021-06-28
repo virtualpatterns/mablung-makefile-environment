@@ -11,8 +11,8 @@ export mablung-makefile-path := $(patsubst %/,%,$(dir $(shell npx mablung-makefi
 endif
 
 include $(--mablung-makefile-environment-path)/include/common
-include $(--mablung-makefile-environment-path)/include/build/common
-include $(--mablung-makefile-environment-path)/include/build/build
-include $(--mablung-makefile-environment-path)/include/build/debug
+include $(--mablung-makefile-environment-path)/include/commit
+include $(--mablung-makefile-environment-path)/include/build
+include $(--mablung-makefile-environment-path)/include/debug
 
 .DEFAULT_GOAL := build

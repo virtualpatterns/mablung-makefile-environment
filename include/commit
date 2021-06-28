@@ -1,0 +1,5 @@
+
+# --mablung-makefile-environment-include-path := $(patsubst %/,%,$(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
+# $(info --mablung-makefile-environment-include-path := $(--mablung-makefile-environment-include-path))
+
+include $(mablung-makefile-path)/include/commit
