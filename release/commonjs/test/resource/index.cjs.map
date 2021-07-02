@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../source/esmodule/test/resource/index.js"],"names":[],"mappings":";;;;;;AAAA,MAAM,OAAO,GAAb;AACO,MAAM,EAAE,GAAG,OAAO,CAAC,OAAR,CAAgB,cAAhB,CAAX","file":"index.cjs","sourcesContent":["const Require = __require\nexport const OK = Require.resolve('./index.json')\n"]}

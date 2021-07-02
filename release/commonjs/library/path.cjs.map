@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../source/esmodule/library/path.js"],"names":[],"mappings":";;;;;;AACA,MAAM,OAAO,GADb,OACA;AAEO,MAAM,IAAI,GAAG,OAAO,CAAC,OAAR,CAAgB,mBAAhB,CAAb","file":"path.cjs","sourcesContent":["\nconst Require = __require\n\nexport const Path = Require.resolve('../../../makefile')\n"]}
