@@ -71,7 +71,7 @@ $(project-path)/release/commonjs%babelrc.json: $(project-path)/source/esmodule%b
 # @$(shx) echo ignore .... $(call trim-project,$<) to $(call trim-project,$@)
 $(project-path)/release/commonjs%eslintrc.json: $(project-path)/source/esmodule%eslintrc.json;
 
-$(project-path)/release/commonjs/%.cjs: babel-flag := --env-name commonjs --source-maps
+$(project-path)/release/commonjs/%.cjs: babel-flag := --env-name commonjs --source-maps $(or $(source-map),true)
 $(project-path)/release/commonjs/%.cjs: $(project-path)/source/esmodule/%.js
 	@$(shx) echo compile ... $(call trim-project,$<) to $(call trim-project,$@)
 	@$(babel) $< --out-file $@ $(babel-flag)
