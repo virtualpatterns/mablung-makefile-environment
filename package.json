@@ -39,6 +39,16 @@
     },
     "./package.json": "./package.json"
   },
+  "files": [
+    "/include",
+    "/release/commonjs/command",
+    "/release/commonjs/library",
+    "/release/commonjs/index.cjs",
+    "/release/esmodule/command",
+    "/release/esmodule/library",
+    "/release/esmodule/index.js",
+    "makefile"
+  ],
   "license": "GPL-3.0+",
   "name": "@virtualpatterns/mablung-makefile-environment",
   "repository": {
@@ -51,7 +61,8 @@
   "type": "module",
   "version": "0.0.1-10",
   "dependencies": {
-    "@virtualpatterns/mablung-makefile": "virtualpatterns/mablung-makefile",
+    "@virtualpatterns/mablung-makefile": "0.0.1-51",
+    "@virtualpatterns/mablung-source-map-support": "0.0.2-43",
     "commander": "^8.0.0",
     "fs-extra": "^10.0.0",
     "json5": "^2.2.0"
@@ -66,8 +77,7 @@
     "@pwn/is": "^1.0.2",
     "@virtualpatterns/mablung-babel-plugin-replace-identifier": "virtualpatterns/mablung-babel-plugin-replace-identifier.git",
     "@virtualpatterns/mablung-babel-plugin-replace-string-literal": "virtualpatterns/mablung-babel-plugin-replace-string-literal",
-    "@virtualpatterns/mablung-check-dependency": "virtualpatterns/mablung-check-dependency",
-    "@virtualpatterns/mablung-source-map-support": "virtualpatterns/mablung-source-map-support.git",
+    "@virtualpatterns/mablung-check-dependency": "0.0.1-45",
     "@virtualpatterns/mablung-worker": "virtualpatterns/mablung-worker.git",
     "ava": "^3.15.0",
     "c8": "^7.7.3",
