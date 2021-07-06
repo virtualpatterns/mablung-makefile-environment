@@ -61,8 +61,8 @@
   "type": "module",
   "version": "0.0.1-13",
   "dependencies": {
-    "@virtualpatterns/mablung-makefile": "0.0.1-51",
-    "@virtualpatterns/mablung-source-map-support": "0.0.2-43",
+    "@virtualpatterns/mablung-makefile": "0.0.1-59",
+    "@virtualpatterns/mablung-source-map-support": "0.0.2-44",
     "commander": "^8.0.0",
     "fs-extra": "^10.0.0",
     "json5": "^2.2.0"
@@ -75,15 +75,15 @@
     "@babel/plugin-syntax-import-meta": "^7.10.4",
     "@babel/preset-env": "^7.14.7",
     "@pwn/is": "^1.0.2",
-    "@virtualpatterns/mablung-babel-plugin-replace-identifier": "0.0.1-15",
-    "@virtualpatterns/mablung-babel-plugin-replace-string-literal": "0.0.1-13",
-    "@virtualpatterns/mablung-check-dependency": "0.0.1-45",
+    "@virtualpatterns/mablung-babel-plugin-replace-identifier": "0.0.1-17",
+    "@virtualpatterns/mablung-babel-plugin-replace-string-literal": "0.0.1-14",
+    "@virtualpatterns/mablung-check-dependency": "0.0.1-46",
     "@virtualpatterns/mablung-worker": "0.0.2-35",
     "ava": "^3.15.0",
     "c8": "^7.7.3",
-    "eslint": "^7.29.0",
+    "eslint": "^7.30.0",
     "eslint-plugin-babel": "^5.3.1",
-    "npm-check-updates": "^11.7.1",
+    "npm-check-updates": "^11.8.1",
     "shx": "^0.3.3"
   },
   "peerDependencies": {
@@ -91,8 +91,8 @@
     "@babel/core": "^7.14.6",
     "ava": "^3.15.0",
     "c8": "^7.7.3",
-    "eslint": "^7.29.0",
-    "npm-check-updates": "^11.7.1",
+    "eslint": "^7.30.0",
+    "npm-check-updates": "^11.8.1",
     "shx": "^0.3.3"
   }
 }
