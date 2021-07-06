@@ -21,6 +21,8 @@ Test('MAKEFILE_PATH', (test) => {
     Require.resolve('../../../makefile'),
     Require.resolve('../../../include/common') ,
     Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/common') ,
+    Require.resolve('../../../include/update'),
+    Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/update'),
     Require.resolve('../../../include/commit') ,
     Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/commit') ,
     Require.resolve('../../../include/build'),
