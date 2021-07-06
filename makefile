@@ -6,11 +6,8 @@ ifeq ($(origin project-path),undefined)
 export project-path := $(CURDIR)
 endif
 
-ifeq ($(origin mablung-makefile-path),undefined)
-export mablung-makefile-path := $(patsubst %/,%,$(dir $(shell npx mablung-makefile-path)))
-endif
-
 include $(--mablung-makefile-environment-path)/include/common
+include $(--mablung-makefile-environment-path)/include/update
 include $(--mablung-makefile-environment-path)/include/commit
 include $(--mablung-makefile-environment-path)/include/build
 include $(--mablung-makefile-environment-path)/include/debug

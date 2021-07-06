@@ -6,4 +6,8 @@ ifeq ($(origin mablung-makefile-path),undefined)
 export mablung-makefile-path := $(patsubst %/,%,$(dir $(shell npx mablung-makefile get-path)))
 endif
 
-include $(mablung-makefile-path)/include/debug
+include $(mablung-makefile-path)/include/update
+
+update: stop-update := $(if $\
+												$(shell npx shx which mablung-makefile-environment),$\
+												$(shell npx mablung-makefile-environment get-upgrade))
