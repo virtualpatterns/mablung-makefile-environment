@@ -15,16 +15,13 @@
     "verbose": true
   },
   "bin": {
-    "mablung-makefile-environment-path": "./release/esmodule/command/mablung-makefile-environment-path.js"
+    "mablung-makefile-environment": "./release/esmodule/command/mablung-makefile-environment.js"
   },
   "c8": {
     "all": true,
     "exclude": [
-      "release/commonjs/sandbox",
       "release/commonjs/test",
-      "release/esmodule/sandbox",
       "release/esmodule/test",
-      "source/esmodule/sandbox",
       "source/esmodule/test"
     ],
     "reporter": [
@@ -33,20 +30,12 @@
   },
   "description": "TBD",
   "exports": {
-    ".": {
-      "import": "./release/esmodule/index.js",
-      "require": "./release/commonjs/index.cjs"
-    },
     "./package.json": "./package.json"
   },
   "files": [
     "/include",
     "/release/commonjs/command",
-    "/release/commonjs/library",
-    "/release/commonjs/index.cjs",
     "/release/esmodule/command",
-    "/release/esmodule/library",
-    "/release/esmodule/index.js",
     "makefile"
   ],
   "license": "GPL-3.0+",
