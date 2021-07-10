@@ -22,11 +22,12 @@
     "exclude": [
       "release/commonjs/test",
       "release/esmodule/test",
-      "source/esmodule/test"
+      "release/test"
     ],
     "reporter": [
       "html"
-    ]
+    ],
+    "src": "release"
   },
   "description": "TBD",
   "exports": {
