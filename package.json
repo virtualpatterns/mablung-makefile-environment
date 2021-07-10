@@ -47,7 +47,7 @@
   "type": "module",
   "version": "0.0.1-14",
   "dependencies": {
-    "@virtualpatterns/mablung-makefile": "0.0.1-59",
+    "@virtualpatterns/mablung-makefile": "0.0.1-69",
     "@virtualpatterns/mablung-source-map-support": "0.0.2-50",
     "commander": "^8.0.0",
     "fs-extra": "^10.0.0",
