@@ -12,7 +12,7 @@
   },
   "parser": "@babel/eslint-parser",
   "parserOptions": {
-    "requireConfigFile": true,
+    "requireConfigFile": false,
     "sourceType": "module"
   },
   "plugins": [

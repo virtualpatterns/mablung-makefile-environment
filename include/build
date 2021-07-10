@@ -69,8 +69,8 @@ $(project-path)/release/%.create:
 # 	@$(shx) echo create ... $(patsubst $(project-path)/%,%,$(subst /release/esmodule,/release/commonjs,$(patsubst %.create,%,$@))),$\
 # 	@$(shx) echo -n)
 
-$(project-path)/release/%.cjs: babel-flag += --env-name commonjs
-$(project-path)/release/%.js: babel-flag += --env-name esmodule
+$(project-path)/release/%.cjs: babel-parameter := --env-name commonjs
+$(project-path)/release/%.js: babel-parameter := --env-name esmodule
 
 # @$(shx) echo ignore .... $(call trim-project,$<) to $(call trim-project,$@)
 $(project-path)/release/commonjs%DS_Store: $(project-path)/source/esmodule%DS_Store;
@@ -79,10 +79,10 @@ $(project-path)/release/commonjs%babelrc.json: $(project-path)/source/esmodule%b
 # @$(shx) echo ignore .... $(call trim-project,$<) to $(call trim-project,$@)
 $(project-path)/release/commonjs%eslintrc.json: $(project-path)/source/esmodule%eslintrc.json;
 
-$(project-path)/release/commonjs/%.cjs: babel-flag := --env-name commonjs --source-maps $(or $(source-map),true)
+$(project-path)/release/commonjs/%.cjs: babel-parameter := --env-name commonjs
 $(project-path)/release/commonjs/%.cjs: $(project-path)/source/esmodule/%.js
-	@$(shx) echo compile ... $(call trim-project,$<) to $(call trim-project,$@)
-	@$(babel) $< --out-file $@ $(babel-flag)
+	@$(shx) echo compile ... $(call trim-project,$<) to $(call trim-project,$@) --source-maps $(or $(source-map),true) $(babel-parameter)
+	@$(babel) $< --out-file $@ --source-maps $(or $(source-map),true) $(babel-parameter)
 
 $(project-path)/release/commonjs/%: $(project-path)/source/esmodule/%
 	@$(shx) echo copy ...... $(call trim-project,$<) to $(call trim-project,$(call trim-folder-path,$@))

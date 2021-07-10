@@ -8,6 +8,6 @@ endif
 
 include $(mablung-makefile-path)/include/update
 
-update: stop-update := $(if $\
-												$(shell npx shx which mablung-makefile-environment),$\
-												$(shell npx mablung-makefile-environment get-upgrade))
+update:: stop-update += $(if $\
+													$(shell npx shx which mablung-makefile-environment),$\
+													$(shell npx mablung-makefile-environment get-update))
