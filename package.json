@@ -31,7 +31,6 @@
   },
   "files": [
     "/include",
-    "/release/commonjs/command",
     "/release/esmodule/command",
     "makefile"
   ],
