@@ -10,4 +10,7 @@ include $(mablung-makefile-path)/include/update
 
 update:: stop-update := $(if $\
 													$(shell npx shx which mablung-makefile-environment),$\
-													$(shell npx mablung-makefile-environment get-update))
+													$(shell npx mablung-makefile-environment get-update),$\
+													$(if $\
+														$(shell npx shx which mablung-makefile),$\
+														$(shell npx mablung-makefile get-update)))
