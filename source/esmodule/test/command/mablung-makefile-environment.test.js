@@ -7,7 +7,7 @@ Test('mablung-makefile-environment get-path', async (test) => {
   test.is(await process.whenExit(), 0)
 })
 
-Test('mablung-makefile-environment get-upgrade', async (test) => {
-  let process = new MablungMakefileEnvironmentProcess({ 'get-upgrade': true })
+Test('mablung-makefile-environment get-update', async (test) => {
+  let process = new MablungMakefileEnvironmentProcess({ 'get-update': true })
   test.is(await process.whenExit(), 0)
 })
