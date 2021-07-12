@@ -8,7 +8,11 @@ endif
 
 include $(mablung-makefile-path)/include/update
 
+ifeq ($(CURDIR),$(project-path))
+
 update:: stop-update := $(if $\
 													$(shell npx shx which mablung-makefile-environment),$\
 													$(shell npx mablung-makefile-environment get-update),$\
 													$(stop-update))
+
+endif
