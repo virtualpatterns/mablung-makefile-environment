@@ -2,15 +2,13 @@
 # --mablung-makefile-environment-include-build-path := $(patsubst %/,%,$(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
 # $(info --mablung-makefile-environment-include-build-path := $(--mablung-makefile-environment-include-build-path))
 
-ifeq ($(CURDIR),$(project-path))
-
 ifeq ($(origin mablung-makefile-path),undefined)
 export mablung-makefile-path := $(patsubst %/,%,$(dir $(shell npx mablung-makefile get-path)))
 endif
 
 include $(mablung-makefile-path)/include/build
 
-else
+ifneq ($(CURDIR),$(project-path))
 
 ifndef filter-environment-release-content
 filter-environment-release-content = $(1)
@@ -29,12 +27,6 @@ filter-release-content =	$(call $\
 																		$(project-path)/release/esmodule%,$\
 																		$(1)))) $\
 															$(1)))
-
-ifeq ($(origin mablung-makefile-path),undefined)
-export mablung-makefile-path := $(patsubst %/,%,$(dir $(shell npx mablung-makefile get-path)))
-endif
-
-include $(mablung-makefile-path)/include/build
 	
 # $(info --------------------)
 # $(info build-content = $(call trim-project,$(build-content)))
