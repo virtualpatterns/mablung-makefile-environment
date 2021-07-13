@@ -9,11 +9,11 @@ const Process = process
 const Require = __require
 
 Test('commonjs', async (test) => {
-  test.true(await FileSystem.pathExists(`${FolderPath}/../../commonjs`))
+  test.true(await FileSystem.pathExists(`${FolderPath}/../../commonjs/command/mablung-makefile-environment.cjs`))
 })
 
 Test('esmodule', async (test) => {
-  test.true(await FileSystem.pathExists(`${FolderPath}/../../esmodule`))
+  test.true(await FileSystem.pathExists(`${FolderPath}/../../esmodule/command/mablung-makefile-environment.js`))
 })
 
 Test('MAKEFILE_PATH', (test) => {
