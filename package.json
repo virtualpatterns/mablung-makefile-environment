@@ -44,7 +44,7 @@
     "test": "make test"
   },
   "type": "module",
-  "version": "0.0.1-20",
+  "version": "0.0.1-21",
   "dependencies": {
     "@virtualpatterns/mablung-makefile": "0.0.1-75",
     "@virtualpatterns/mablung-source-map-support": "0.0.2-55",
