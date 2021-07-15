@@ -40,6 +40,18 @@ Test('.eslintrc.json', async (test) => {
   test.false(await FileSystem.pathExists(`${FolderPath}/../../.eslintrc.json`))
 })
 
+Test('../../resource/babelrc.json', async (test) => {
+  test.true(JSON5.parse(await FileSystem.readFile(Require.resolve('../../resource/babelrc.json'), { 'encoding': 'utf-8' })).OK)
+})
+
+Test('../../resource/DS_Store', async (test) => {
+  test.true(await FileSystem.pathExists(Require.resolve('../../resource/DS_Store')))
+})
+
+Test('../../resource/eslintrc.json', async (test) => {
+  test.true(JSON5.parse(await FileSystem.readFile(Require.resolve('../../resource/eslintrc.json'), { 'encoding': 'utf-8' })).OK)
+})
+
 Test('../../resource/index.js', async (test) => {
   test.truthy((await import('../../resource/index.js')).OK)
 })
@@ -62,6 +74,18 @@ Test('../../resource/empty', async (test) => {
 
 Test('../../resource/ignore', async (test) => {
   test.false(await FileSystem.pathExists(`${FolderPath}/../../resource/ignore`))
+})
+
+Test('./resource/babelrc.json', async (test) => {
+  test.true(JSON5.parse(await FileSystem.readFile(Require.resolve('./resource/babelrc.json'), { 'encoding': 'utf-8' })).OK)
+})
+
+Test('./resource/DS_Store', async (test) => {
+  test.true(await FileSystem.pathExists(Require.resolve('./resource/DS_Store')))
+})
+
+Test('./resource/eslintrc.json', async (test) => {
+  test.true(JSON5.parse(await FileSystem.readFile(Require.resolve('./resource/eslintrc.json'), { 'encoding': 'utf-8' })).OK)
 })
 
 Test('./resource/index.js', async (test) => {
