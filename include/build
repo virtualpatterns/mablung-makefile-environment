@@ -72,12 +72,15 @@ $(project-path)/release/%.create:
 $(project-path)/release/%.cjs: babel-parameter := --env-name commonjs
 $(project-path)/release/%.js: babel-parameter := --env-name esmodule
 
-# @$(shx) echo ignore .... $(call trim-project,$<) to $(call trim-project,$@)
-$(project-path)/release/commonjs%DS_Store: $(project-path)/source/esmodule%DS_Store;
-# @$(shx) echo ignore .... $(call trim-project,$<) to $(call trim-project,$@)
-$(project-path)/release/commonjs%babelrc.json: $(project-path)/source/esmodule%babelrc.json;
-# @$(shx) echo ignore .... $(call trim-project,$<) to $(call trim-project,$@)
-$(project-path)/release/commonjs%eslintrc.json: $(project-path)/source/esmodule%eslintrc.json;
+# @$(shx) echo ignore .... $(call trim-project,$<) for $(call trim-project,$(call trim-folder-path,$@))
+$(project-path)/release/commonjs/.DS_Store: $(project-path)/source/esmodule/.DS_Store;
+$(project-path)/release/commonjs/%/.DS_Store: $(project-path)/source/esmodule/%/.DS_Store;
+
+$(project-path)/release/commonjs/.babelrc.json: $(project-path)/source/esmodule/.babelrc.json;
+$(project-path)/release/commonjs/%/.babelrc.json: $(project-path)/source/esmodule/%/.babelrc.json;
+
+$(project-path)/release/commonjs/.eslintrc.json: $(project-path)/source/esmodule/.eslintrc.json;
+$(project-path)/release/commonjs/%/.eslintrc.json: $(project-path)/source/esmodule/%/.eslintrc.json;
 
 $(project-path)/release/commonjs/%.cjs: babel-parameter := --env-name commonjs
 $(project-path)/release/commonjs/%.cjs: $(project-path)/source/esmodule/%.js

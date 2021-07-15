@@ -19,7 +19,10 @@
   },
   "c8": {
     "all": true,
-    "exclude": [],
+    "exclude": [
+      "release/commonjs/sandbox",
+      "release/esmodule/sandbox"
+    ],
     "reporter": [
       "html"
     ],
