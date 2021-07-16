@@ -82,13 +82,15 @@ $(project-path)/release/commonjs/%/.babelrc.json: $(project-path)/source/esmodul
 $(project-path)/release/commonjs/.eslintrc.json: $(project-path)/source/esmodule/.eslintrc.json;
 $(project-path)/release/commonjs/%/.eslintrc.json: $(project-path)/source/esmodule/%/.eslintrc.json;
 
+# @$(shx) echo compile ... $(call trim-project,$<) to $(call trim-project,$@) --source-maps $(or $(source-map),true) $(babel-parameter)
 $(project-path)/release/commonjs/%.cjs: babel-parameter := --env-name commonjs
 $(project-path)/release/commonjs/%.cjs: $(project-path)/source/esmodule/%.js
-	@$(shx) echo compile ... $(call trim-project,$<) to $(call trim-project,$@) --source-maps $(or $(source-map),true) $(babel-parameter)
+	@$(shx) echo compile ... $(call trim-project,$@) --source-maps $(or $(source-map),true) $(babel-parameter)
 	@$(babel) $< --out-file $@ --source-maps $(or $(source-map),true) $(babel-parameter)
 
+# @$(shx) echo copy ...... $(call trim-project,$<) to $(call trim-project,$(call trim-folder-path,$@))
 $(project-path)/release/commonjs/%: $(project-path)/source/esmodule/%
-	@$(shx) echo copy ...... $(call trim-project,$<) to $(call trim-project,$(call trim-folder-path,$@))
+	@$(shx) echo copy ...... $(call trim-project,$(call trim-folder-path,$@))
 	@$(shx) cp -R $< $(call trim-folder-path,$@)
 
 ifeq ($(findstring /source/esmodule/,$(CURDIR)),/source/esmodule/)
