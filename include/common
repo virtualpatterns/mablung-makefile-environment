@@ -1,9 +1,0 @@
-
-# --mablung-makefile-environment-include-path := $(patsubst %/,%,$(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
-# $(info --mablung-makefile-environment-include-path := $(--mablung-makefile-environment-include-path))
-
-ifeq ($(origin mablung-makefile-path),undefined)
-export mablung-makefile-path := $(patsubst %/,%,$(dir $(shell npx mablung-makefile get-path)))
-endif
-
-include $(mablung-makefile-path)/include/common
