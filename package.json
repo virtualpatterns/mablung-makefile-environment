@@ -53,7 +53,7 @@
     "url": "https://github.com/virtualpatterns/mablung-makefile-environment"
   },
   "type": "module",
-  "version": "0.0.1-26",
+  "version": "0.0.1-27",
   "dependencies": {
     "@virtualpatterns/mablung-makefile": "0.0.1-93",
     "@virtualpatterns/mablung-source-map-support": "0.0.2-67",
