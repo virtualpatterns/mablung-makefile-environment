@@ -9,7 +9,7 @@ import JSON5 from 'json5'
 const Process = process
 const Require = __require
 
-const Package = JSON5.parse(FileSystem.readFileSync(Require.resolve('../../../package.json')), { 'encoding': 'utf-8' })
+const Package = JSON5.parse(FileSystem.readFileSync(Require.resolve('../../package.json')), { 'encoding': 'utf-8' })
 
 Command
   .version(Package.version)
@@ -22,7 +22,8 @@ Command
     process.exitCode = 0
 
     try {
-      console.log(Require.resolve('../../../makefile'))
+      console.log(Require.resolve('../../makefile'))
+    /* c8 ignore next 4 */
     } catch (error) {
       console.error(error)
       process.exitCode = 1

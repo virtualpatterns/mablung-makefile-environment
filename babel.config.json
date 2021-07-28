@@ -1,8 +1,10 @@
 {
+  "presets": [
+    "@virtualpatterns/babel-preset-mablung-makefile"
+  ],
   "env": {
     "commonjs": {
       "plugins": [
-        "@babel/plugin-proposal-export-default-from",
         [
           "@virtualpatterns/mablung-babel-plugin-replace-identifier",
           {
@@ -87,8 +89,7 @@
             ]
           }
         ]
-      ],
-      "presets": []
+      ]
     }
   }
 }
