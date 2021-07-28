@@ -37,7 +37,7 @@
     }
   },
   "exports": {
-    "./babel.config.json": "./babel.config.json",
+    "./babel.json": "./babel.config.json",
     "./package.json": "./package.json"
   },
   "files": [
