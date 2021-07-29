@@ -55,13 +55,6 @@
   "type": "module",
   "version": "0.0.1-27",
   "dependencies": {
-    "@virtualpatterns/mablung-makefile": "0.0.1-93",
-    "@virtualpatterns/mablung-source-map-support": "0.0.2-67",
-    "commander": "^8.1.0",
-    "fs-extra": "^10.0.0",
-    "json5": "^2.2.0"
-  },
-  "devDependencies": {
     "@babel/core": "^7.14.8",
     "@babel/plugin-syntax-import-meta": "^7.10.4",
     "@babel/preset-env": "^7.14.8",
@@ -69,6 +62,13 @@
     "@virtualpatterns/eslint-config-mablung-makefile": "0.0.1-12",
     "@virtualpatterns/mablung-babel-plugin-replace-identifier": "0.0.1-31",
     "@virtualpatterns/mablung-babel-plugin-replace-string-literal": "0.0.1-27",
+    "@virtualpatterns/mablung-makefile": "0.0.1-93",
+    "@virtualpatterns/mablung-source-map-support": "0.0.2-67",
+    "commander": "^8.1.0",
+    "fs-extra": "^10.0.0",
+    "json5": "^2.2.0"
+  },
+  "devDependencies": {
     "@virtualpatterns/mablung-check-dependency": "0.0.1-63",
     "@virtualpatterns/mablung-worker": "0.0.2-40",
     "ava": "^3.15.0"
