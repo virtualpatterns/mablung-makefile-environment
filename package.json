@@ -149,7 +149,7 @@
     "url": "https://github.com/virtualpatterns/mablung-makefile-environment"
   },
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2-0",
   "dependencies": {
     "@babel/plugin-syntax-import-meta": "^7.10.4",
     "@babel/preset-env": "^7.15.0",
