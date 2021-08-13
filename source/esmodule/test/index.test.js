@@ -1,5 +1,4 @@
 import FileSystem from 'fs-extra'
-import JSON5 from 'json5'
 import Path from 'path'
 import Test from 'ava'
 
@@ -11,9 +10,8 @@ const Require = __require
 Test('MAKEFILE_PATH', (test) => {
   test.deepEqual(Process.env['MAKEFILE_PATH'].split(' '), [
     Require.resolve('../../../makefile'),
+    Require.resolve('../../../include/common'),
     Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/common') ,
-    Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/update'),
-    Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/commit') ,
     Require.resolve('../../../include/build'),
     Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build'),
     Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/debug')
@@ -34,11 +32,11 @@ Test('resource/index.js', async (test) => {
 })
 
 Test('resource/index.json', async (test) => {
-  test.true(JSON5.parse(await FileSystem.readFile(Require.resolve('./resource/index.json'), { 'encoding': 'utf-8' })).OK)
+  test.true((await FileSystem.readJson(Require.resolve('./resource/index.json'), { 'encoding': 'utf-8' })).OK)
 })
 
 Test('resource/sample.babelrc.json', async (test) => {
-  test.true(JSON5.parse(await FileSystem.readFile(Require.resolve('./resource/sample.babelrc.json'), { 'encoding': 'utf-8' })).OK)
+  test.true((await FileSystem.readJson(Require.resolve('./resource/sample.babelrc.json'), { 'encoding': 'utf-8' })).OK)
 })
 
 Test('resource/sample.DS_Store', async (test) => {
@@ -46,7 +44,7 @@ Test('resource/sample.DS_Store', async (test) => {
 })
 
 Test('resource/sample.eslintrc.json', async (test) => {
-  test.true(JSON5.parse(await FileSystem.readFile(Require.resolve('./resource/sample.eslintrc.json'), { 'encoding': 'utf-8' })).OK)
+  test.true((await FileSystem.readJson(Require.resolve('./resource/sample.eslintrc.json'), { 'encoding': 'utf-8' })).OK)
 })
 
 Test('resource/copy/makefile', async (test) => {
@@ -54,7 +52,7 @@ Test('resource/copy/makefile', async (test) => {
 })
 
 Test('resource/copy/index.json', async (test) => {
-  test.true(JSON5.parse(await FileSystem.readFile(Require.resolve('./resource/copy/index.json'), { 'encoding': 'utf-8' })).OK)
+  test.true((await FileSystem.readJson(Require.resolve('./resource/copy/index.json'), { 'encoding': 'utf-8' })).OK)
 })
 
 Test('resource/ignore', async (test) => {

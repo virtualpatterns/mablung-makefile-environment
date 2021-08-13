@@ -3,24 +3,24 @@ ifndef current-folder
 include $(mablung-makefile-path)/include/build
 else
 
-ifndef filter-environment-build-file
-filter-environment-build-file = $(1)
-endif
+# ifndef filter-environment-build-item
+# filter-environment-build-item = $(1)
+# endif
 
-filter-build-file =	$(call $\
-											filter-environment-build-file,$\
-											$(sort $\
-												$(strip $\
-													$(patsubst $\
-														release/esmodule/%,$\
-														release/commonjs/%,$\
-														$(patsubst $\
-															%.js,$\
-															%.cjs,$\
-															$(filter $\
-																release/esmodule%,$\
-																$(1)))) $\
-													$(1))))
+# filter-build-item =	$(call $\
+# 											filter-environment-build-item,$\
+# 											$(sort $\
+# 												$(strip $\
+# 													$(patsubst $\
+# 														release/esmodule/%,$\
+# 														release/commonjs/%,$\
+# 														$(patsubst $\
+# 															%.js,$\
+# 															%.cjs,$\
+# 															$(filter $\
+# 																release/esmodule%,$\
+# 																$(1)))) $\
+# 													$(1))))
 
 include $(mablung-makefile-path)/include/build
 
@@ -28,63 +28,75 @@ include $(mablung-makefile-path)/include/build
 # $(info current-folder ... $(current-folder))
 # $(info make-folder ...... $(make-folder))
 # $(info build-folder ..... $(build-folder))
-# $(info build-file ....... $(build-file))
+# $(info build-item ....... $(build-item))
 # $(info --------------------)
 
+ifeq ($(findstring source/esmodule,$(current-folder)),source/esmodule)
+
+build-commonjs-item = $(patsubst $\
+												release/esmodule/%,$\
+												release/commonjs/%,$\
+												$(patsubst $\
+													%.js,$\
+													%.cjs,$\
+													$(build-item)))
+
+build:: $(build-commonjs-item)
+	@npx shx true
+	
 # this rule replaces the same rule in the included makefile
 release/%.create:
-	@npx shx echo create .... $(patsubst %.create,%,$@)
+	$(if $(verbose),@echo create .... $(patsubst %.create,%,$@))
 	@npx shx mkdir -p $(patsubst %.create,%,$@)
-	$(if $\
-		$(findstring release/esmodule,$(patsubst %.create,%,$@)),$\
-			@npx shx echo create .... $(subst release/esmodule,release/commonjs,$(patsubst %.create,%,$@)))
-	$(if $\
-		$(findstring release/esmodule,$(patsubst %.create,%,$@)),$\
-			@npx shx mkdir -p $(subst release/esmodule,release/commonjs,$(patsubst %.create,%,$@)))
+	$(if $(verbose),@echo create .... $(patsubst release/esmodule/%,release/commonjs/%,$(patsubst %.create,%,$@)))
+	@npx shx mkdir -p $(patsubst release/esmodule/%,release/commonjs/%,$(patsubst %.create,%,$@))
 
-# # Do not change this rule ... as it is it will replace the same rule in the included makefile
-# release/%.create:
-# 	@npx shx mkdir -p $(patsubst %.create,%,$@)
-# 	$(if $\
-# 		$(findstring release/esmodule,$(patsubst %.create,%,$@)),$\
-# 		@npx shx mkdir -p $(subst release/esmodule,release/commonjs,$(patsubst %.create,%,$@)),$\
-# 		@npx shx echo -n)
-
-# $(info $release/%.create: in --mablung-makefile-environment/include/build)
-# @npx shx echo create ... $(patsubst %,%,$(patsubst %.create,%,$@))
-# $(if $\
-# 	$(findstring release/esmodule,$(patsubst %.create,%,$@)),$\
-# 	@npx shx echo create ... $(patsubst %,%,$(subst release/esmodule,release/commonjs,$(patsubst %.create,%,$@))),$\
-# 	@npx shx echo -n)
-
-release/%.cjs: babel-parameter := --env-name commonjs
-release/%.js: babel-parameter := --env-name esmodule
-
-release/commonjs/.DS_Store: source/esmodule/.DS_Store;
-release/commonjs/%/.DS_Store: source/esmodule/%/.DS_Store;
-release/commonjs/.babelrc.json: source/esmodule/.babelrc.json;
-release/commonjs/%/.babelrc.json: source/esmodule/%/.babelrc.json;
-release/commonjs/.eslintrc.json: source/esmodule/.eslintrc.json;
-release/commonjs/%/.eslintrc.json: source/esmodule/%/.eslintrc.json;
+release/commonjs/.DS_Store: source/esmodule/.DS_Store
+	$(if $(verbose),@echo ignore .... $<)
+release/commonjs/%/.DS_Store: source/esmodule/%/.DS_Store
+	$(if $(verbose),@echo ignore .... $<)
+release/commonjs/.babelrc.json: source/esmodule/.babelrc.json
+	$(if $(verbose),@echo ignore .... $<)
+release/commonjs/%/.babelrc.json: source/esmodule/%/.babelrc.json
+	$(if $(verbose),@echo ignore .... $<)
+release/commonjs/.eslintrc.json: source/esmodule/.eslintrc.json
+	$(if $(verbose),@echo ignore .... $<)
+release/commonjs/%/.eslintrc.json: source/esmodule/%/.eslintrc.json
+	$(if $(verbose),@echo ignore .... $<)
 
 release/commonjs/%.cjs: babel-parameter := --env-name commonjs
 release/commonjs/%.cjs: source/esmodule/%.js
-	@npx shx echo compile ... $@ --source-maps $(or $(source-map),true) $(babel-parameter)
+	$(eval export SOURCE_PATH := $<)
+	$(eval export RELEASE_PATH := $@)
+	@echo compile ... $@ --source-maps $(or $(source-map),true) $(babel-parameter)
 	@npx babel $< --out-file $@ --source-maps $(or $(source-map),true) $(babel-parameter)
 
 release/commonjs/%: source/esmodule/%
-	@npx shx echo copy ...... $@
+	@echo copy ...... $@
 	@npx shx cp -R $< $(call trim-folder-path,$@)
 
 ifeq ($(findstring source/esmodule/,$(current-folder)),source/esmodule/)
 
 # this rule is executed after the same rule in the included makefile
 copy::
-	@npx shx echo copy ...... $(current-folder) to $(call trim-folder-path,$(subst source/esmodule/,release/commonjs/,$(current-folder)))
-	@npx shx cp -R $(current-folder) $(subst source/esmodule/,release/commonjs/,$(current-folder))
-	@npx shx echo delete .... $(subst source/esmodule/,release/commonjs/,$(current-folder))/makefile
-	@npx shx rm -f $(subst source/esmodule/,release/commonjs/,$(current-folder))/makefile
+	$(if $(verbose),@echo copy ...... $(patsubst source/esmodule/%,release/commonjs/%,$(current-folder)))
+	@npx shx cp -R $(current-folder) $(call trim-folder-path,$(patsubst source/esmodule/%,release//commonjs/%,$(current-folder)))
+	$(if $(verbose),@echo delete .... $(patsubst source/esmodule/%,release/commonjs/%,$(current-folder))/makefile)
+	@npx shx rm -f $(patsubst source/esmodule/%,release/commonjs/%,$(current-folder))/makefile
 
 endif
+
+else ifeq ($(current-folder),source)
+
+release/esmodule.create:
+	$(if $(verbose),@echo create .... $(patsubst %.create,%,$@))
+	@npx shx mkdir -p $(patsubst %.create,%,$@)
+	$(if $(verbose),@echo create .... $(subst release/esmodule,release/commonjs,$(patsubst %.create,%,$@)))
+	@npx shx mkdir -p $(subst release/esmodule,release/commonjs,$(patsubst %.create,%,$@))
+
+endif
+
+release/%.cjs: babel-parameter := --env-name commonjs
+release/%.js: babel-parameter := --env-name esmodule
 
 endif
