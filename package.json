@@ -42,7 +42,7 @@
   },
   "files": [
     "/include",
-    "/release/command",
+    "release/command",
     "babel.config.json",
     "makefile"
   ],
@@ -60,8 +60,8 @@
     "@babel/preset-env": "^7.14.8",
     "@virtualpatterns/babel-preset-mablung-makefile": "0.0.1-1",
     "@virtualpatterns/eslint-config-mablung-makefile": "0.0.1-12",
-    "@virtualpatterns/mablung-babel-plugin-replace-identifier": "0.0.1-31",
-    "@virtualpatterns/mablung-babel-plugin-replace-string-literal": "0.0.1-27",
+    "@virtualpatterns/babel-plugin-mablung-replace-identifier": "0.0.1-31",
+    "@virtualpatterns/babel-plugin-mablung-replace-string-literal": "0.0.1-27",
     "@virtualpatterns/mablung-makefile": "0.0.1-93",
     "@virtualpatterns/mablung-source-map-support": "0.0.2-67",
     "commander": "^8.1.0",
