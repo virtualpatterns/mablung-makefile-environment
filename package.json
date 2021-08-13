@@ -16,7 +16,19 @@
   },
   "babel": {
     "presets": [
-      "@virtualpatterns/babel-preset-mablung-makefile"
+      [
+        "@virtualpatterns/babel-preset-mablung-makefile",
+        {
+          "header": {
+            "exclude": [
+              "source/esmodule/sandbox/**/*",
+              "source/esmodule/test/**/*",
+              "source/test/**/*",
+              "source/index.js"
+            ]
+          }
+        }
+      ]
     ],
     "env": {
       "commonjs": {
@@ -133,7 +145,6 @@
     }
   },
   "exports": {
-    "./babel.json": "./babel.config.json",
     "./package.json": "./package.json"
   },
   "files": [
