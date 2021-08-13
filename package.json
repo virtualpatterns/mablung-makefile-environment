@@ -139,7 +139,7 @@
   "files": [
     "/include",
     "release/command",
-    "babel.config.json",
+    "release/library",
     "makefile"
   ],
   "license": "GPL-3.0+",
