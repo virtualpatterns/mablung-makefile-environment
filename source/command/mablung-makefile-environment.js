@@ -2,8 +2,10 @@
 
 import '@virtualpatterns/mablung-source-map-support/install'
 
+import Clone from 'clone'
 import Command from 'commander'
 import FileSystem from 'fs-extra'
+import Is from '@pwn/is'
 import Path from 'path'
 
 import { Package } from '../library/package.js'
@@ -65,8 +67,25 @@ Command
 
       if (_package.name !== Package.name) {
 
-        _package.babel = Package.babel
-        _package.eslintConfig = Package.eslintConfig
+        let sourceConfiguration = null
+        sourceConfiguration = Clone(Package.babel)
+
+        sourceConfiguration.presets[0][1].header.exclude = []
+
+        let targetConfiguration = null
+        targetConfiguration = Clone(_package.babel || { 'presets': [ [ '@virtualpatterns/babel-preset-mablung-makefile', { 'header': { 'exclude': [] } } ] ] })
+
+        let targetExclude = null
+        targetExclude = targetConfiguration.presets[0][1].header.exclude
+        targetExclude = Is.array(targetExclude) ? targetExclude : [ targetExclude ]
+
+        sourceConfiguration.presets[0][1].header.exclude.push(...targetExclude)
+
+        _package.babel = sourceConfiguration
+
+        sourceConfiguration = Clone(Package.eslintConfig)
+
+        _package.eslintConfig = sourceConfiguration
 
         await FileSystem.writeJson(_path, _package, { 'encoding': 'utf-8', 'spaces': 2 })
 

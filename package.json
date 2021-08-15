@@ -21,9 +21,9 @@
         {
           "header": {
             "exclude": [
-              "source/esmodule/sandbox/**/*",
-              "source/esmodule/test/**/*",
-              "source/test/**/*",
+              "source/esmodule/sandbox",
+              "source/esmodule/test",
+              "source/test",
               "source/index.js"
             ]
           }
@@ -164,17 +164,19 @@
   "dependencies": {
     "@babel/plugin-syntax-import-meta": "^7.10.4",
     "@babel/preset-env": "^7.15.0",
-    "@virtualpatterns/babel-preset-mablung-makefile": "0.0.11",
-    "@virtualpatterns/eslint-config-mablung-makefile": "0.0.11",
-    "@virtualpatterns/babel-plugin-mablung-replace-identifier": "0.0.3",
-    "@virtualpatterns/babel-plugin-mablung-replace-string-literal": "0.0.2",
-    "@virtualpatterns/mablung-makefile": "0.0.21",
-    "@virtualpatterns/mablung-source-map-support": "0.0.9",
+    "@pwn/is": "^1.0.2",
+    "@virtualpatterns/babel-plugin-mablung-replace-identifier": "0.0.4",
+    "@virtualpatterns/babel-plugin-mablung-replace-string-literal": "0.0.3",
+    "@virtualpatterns/babel-preset-mablung-makefile": "0.0.12",
+    "@virtualpatterns/eslint-config-mablung-makefile": "0.0.12",
+    "@virtualpatterns/mablung-makefile": "0.0.23",
+    "@virtualpatterns/mablung-source-map-support": "0.0.10",
+    "clone": "^2.1.2",
     "commander": "^8.1.0",
     "fs-extra": "^10.0.0"
   },
   "devDependencies": {
-    "@virtualpatterns/mablung-check-dependency": "0.0.5",
+    "@virtualpatterns/mablung-check-dependency": "0.0.6",
     "@virtualpatterns/mablung-worker": "0.0.2-40",
     "ava": "^3.15.0",
     "shelljs": "^0.8.4"
