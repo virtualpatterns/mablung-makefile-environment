@@ -1,4 +1,0 @@
-include m1
-
-debug::
-	@echo Debug in m2

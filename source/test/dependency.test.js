@@ -6,12 +6,7 @@ const Process = process
 
 Test('(default)', async (test) => {
 
-  let dependency = await Check(Process.cwd(), {
-    'ignoreMatch': [
-      '@babel/eslint-parser',
-      'eslint-plugin-babel'
-    ]
-  })
+  let dependency = await Check(Process.cwd())
 
   test.deepEqual(dependency.missing, {})
   test.deepEqual(dependency.unused, [])
