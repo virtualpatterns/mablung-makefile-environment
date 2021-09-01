@@ -1,6 +1,6 @@
 {
   "author": "virtualpatterns.com <code@virtualpatterns.com> (http://www.virtualpatterns.com)",
-  "bin": "./release/command/mablung-makefile-environment.js",
+  "bin": "./release/command/index.js",
   "description": "TBD",
   "exports": {
     "./header": "./release/header/index.js",
