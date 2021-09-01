@@ -8,7 +8,7 @@ const Process = process
 const Require = __require
 
 Test('MAKEFILE_PATH', (test) => {
-  test.deepEqual(Process.env['MAKEFILE_PATH'].split(' '), [
+  test.deepEqual(Process.env.MAKEFILE_PATH.split(' '), [
     Require.resolve('../../../makefile'),
     Require.resolve('../../../include/common'),
     Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/common') ,

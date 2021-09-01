@@ -1,4 +1,4 @@
-class CommandError extends Error {
+class IndexError extends Error {
 
   constructor(...parameter) {
     super(...parameter)
@@ -6,4 +6,4 @@ class CommandError extends Error {
 
 }
 
-export { CommandError }
+export { IndexError }

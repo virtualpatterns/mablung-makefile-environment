@@ -1,156 +1,18 @@
 {
   "author": "virtualpatterns.com <code@virtualpatterns.com> (http://www.virtualpatterns.com)",
-  "ava": {
-    "failFast": true,
-    "files": [
-      "release/**/test/**/*.test.*"
-    ],
-    "nodeArguments": [
-      "--no-warnings",
-      "--unhandled-rejections=strict"
-    ],
-    "require": [
-      "@virtualpatterns/mablung-source-map-support/install"
-    ],
-    "verbose": true
-  },
-  "babel": {
-    "presets": [
-      [
-        "@virtualpatterns/babel-preset-mablung-makefile",
-        {
-          "header": {
-            "exclude": [
-              "source/esmodule/sandbox",
-              "source/esmodule/test",
-              "source/test",
-              "source/index.js"
-            ]
-          }
-        }
-      ]
-    ],
-    "env": {
-      "commonjs": {
-        "plugins": [
-          [
-            "@virtualpatterns/babel-plugin-mablung-replace-identifier",
-            {
-              "rule": [
-                {
-                  "searchFor": "__filePath",
-                  "replaceWith": "__filename"
-                },
-                {
-                  "searchFor": "__require",
-                  "replaceWith": "require"
-                }
-              ]
-            }
-          ],
-          [
-            "@virtualpatterns/babel-plugin-mablung-replace-string-literal",
-            {
-              "rule": [
-                {
-                  "searchFor": "^(\\.{1,2}\\/.*?)\\.js$",
-                  "replaceWith": "$1.cjs"
-                }
-              ]
-            }
-          ]
-        ],
-        "presets": [
-          [
-            "@babel/preset-env",
-            {
-              "targets": {
-                "node": "current"
-              }
-            }
-          ]
-        ]
-      },
-      "esmodule": {
-        "plugins": [
-          "@babel/plugin-syntax-import-meta",
-          [
-            "@virtualpatterns/babel-plugin-mablung-replace-identifier",
-            {
-              "rule": [
-                {
-                  "searchFor": "__filePath",
-                  "replaceWith": "__importIdentifier.fileURLToPath(import.meta.url)",
-                  "parserOption": {
-                    "plugins": [
-                      "importMeta"
-                    ],
-                    "sourceType": "module"
-                  },
-                  "addImport": [
-                    {
-                      "type": "default",
-                      "source": "url",
-                      "option": {
-                        "nameHint": "URL"
-                      }
-                    }
-                  ]
-                },
-                {
-                  "searchFor": "__require",
-                  "replaceWith": "__importIdentifier(import.meta.url)",
-                  "parserOption": {
-                    "plugins": [
-                      "importMeta"
-                    ],
-                    "sourceType": "module"
-                  },
-                  "addImport": [
-                    {
-                      "type": "named",
-                      "name": "createRequire",
-                      "source": "module"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        ]
-      }
-    }
-  },
-  "bin": {
-    "mablung-makefile-environment": "./release/command/mablung-makefile-environment.js"
-  },
-  "c8": {
-    "all": true,
-    "exclude": [
-      "release/commonjs/sandbox",
-      "release/esmodule/sandbox",
-      "release/header"
-    ],
-    "reporter": [
-      "html"
-    ],
-    "src": "release"
-  },
+  "bin": "./release/command/mablung-makefile-environment.js",
   "description": "TBD",
-  "eslintConfig": {
-    "extends": "@virtualpatterns/eslint-config-mablung-makefile",
-    "globals": {
-      "__filePath": "readonly",
-      "__require": "readonly"
-    }
-  },
   "exports": {
+    "./header": "./release/header/index.js",
     "./package.json": "./package.json"
   },
   "files": [
-    "/include",
+    "include",
     "release/command",
+    "release/header",
     "release/library",
+    ".eslintrc.json",
+    "babel.config.json",
     "makefile"
   ],
   "license": "GPL-3.0+",
@@ -162,21 +24,23 @@
   "type": "module",
   "version": "0.0.25",
   "dependencies": {
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.15.0",
     "@babel/plugin-syntax-import-meta": "^7.10.4",
     "@babel/preset-env": "^7.15.0",
     "@pwn/is": "^1.0.2",
-    "@virtualpatterns/babel-plugin-mablung-replace-identifier": "0.0.25",
-    "@virtualpatterns/babel-plugin-mablung-replace-string-literal": "0.0.25",
-    "@virtualpatterns/babel-preset-mablung-makefile": "0.0.25",
-    "@virtualpatterns/eslint-config-mablung-makefile": "0.0.25",
-    "@virtualpatterns/mablung-makefile": "0.0.25",
-    "@virtualpatterns/mablung-source-map-support": "0.0.25",
-    "clone": "^2.1.2",
+    "@virtualpatterns/babel-plugin-mablung-replace-identifier": "0.0.26-4",
+    "@virtualpatterns/babel-plugin-mablung-replace-string-literal": "0.0.26-4",
+    "@virtualpatterns/babel-preset-mablung-makefile": "0.0.26-33",
+    "@virtualpatterns/eslint-config-mablung-makefile": "0.0.26-39",
+    "@virtualpatterns/mablung-makefile": "0.0.26-81",
+    "@virtualpatterns/mablung-source-map-support": "0.0.26-18",
     "commander": "^8.1.0",
-    "fs-extra": "^10.0.0"
+    "fs-extra": "^10.0.0",
+    "shx": "^0.3.3"
   },
   "devDependencies": {
-    "@virtualpatterns/mablung-check-dependency": "0.0.25",
+    "@virtualpatterns/mablung-check-dependency": "0.0.26-11",
     "@virtualpatterns/mablung-worker": "0.0.2-40",
     "ava": "^3.15.0",
     "shelljs": "^0.8.4"

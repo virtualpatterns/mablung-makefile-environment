@@ -1,5 +1,5 @@
 
-ifndef current-folder
+ifndef current-build-folder
 include $(mablung-makefile-path)/include/build
 else
 
@@ -25,13 +25,14 @@ else
 include $(mablung-makefile-path)/include/build
 
 # $(info --------------------)
-# $(info current-folder ... $(current-folder))
-# $(info make-folder ...... $(make-folder))
-# $(info build-folder ..... $(build-folder))
-# $(info build-item ....... $(build-item))
+# $(info current-build-folder ... $(current-build-folder))
+# $(info exclude-build-folder ... $(exclude-build-folder))
+# $(info make-folder ............ $(make-folder))
+# $(info build-folder ........... $(build-folder))
+# $(info build-item ............. $(build-item))
 # $(info --------------------)
 
-ifeq ($(findstring source/esmodule,$(current-folder)),source/esmodule)
+ifeq ($(findstring source/esmodule,$(current-build-folder)),source/esmodule)
 
 build-commonjs-item = $(patsubst $\
 												release/esmodule/%,$\
@@ -42,7 +43,7 @@ build-commonjs-item = $(patsubst $\
 													$(build-item)))
 
 build:: $(build-commonjs-item)
-	@npx shx true
+	@:
 	
 # this rule replaces the same rule in the included makefile
 release/%.create:
@@ -64,7 +65,8 @@ release/commonjs/.eslintrc.json: source/esmodule/.eslintrc.json
 release/commonjs/%/.eslintrc.json: source/esmodule/%/.eslintrc.json
 	$(if $(verbose),@echo ignore .... $<)
 
-release/commonjs/%.cjs: babel-parameter := --env-name commonjs
+# release/commonjs/%.cjs: babel-parameter := --env-name commonjs
+release/commonjs/%.cjs: export NODE_ENV := commonjs
 release/commonjs/%.cjs: source/esmodule/%.js
 	$(eval export SOURCE_PATH := $<)
 	$(eval export RELEASE_PATH := $@)
@@ -75,18 +77,18 @@ release/commonjs/%: source/esmodule/%
 	@echo copy ...... $@
 	@npx shx cp -R $< $(call trim-folder-path,$@)
 
-ifeq ($(findstring source/esmodule/,$(current-folder)),source/esmodule/)
+ifeq ($(findstring source/esmodule/,$(current-build-folder)),source/esmodule/)
 
 # this rule is executed after the same rule in the included makefile
 copy::
-	$(if $(verbose),@echo copy ...... $(patsubst source/esmodule/%,release/commonjs/%,$(current-folder)))
-	@npx shx cp -R $(current-folder) $(call trim-folder-path,$(patsubst source/esmodule/%,release//commonjs/%,$(current-folder)))
-	$(if $(verbose),@echo delete .... $(patsubst source/esmodule/%,release/commonjs/%,$(current-folder))/makefile)
-	@npx shx rm -f $(patsubst source/esmodule/%,release/commonjs/%,$(current-folder))/makefile
+	$(if $(verbose),@echo copy ...... $(patsubst source/esmodule/%,release/commonjs/%,$(current-build-folder)))
+	@npx shx cp -R $(current-build-folder) $(call trim-folder-path,$(patsubst source/esmodule/%,release//commonjs/%,$(current-build-folder)))
+	$(if $(verbose),@echo delete .... $(patsubst source/esmodule/%,release/commonjs/%,$(current-build-folder))/makefile)
+	@npx shx rm -f $(patsubst source/esmodule/%,release/commonjs/%,$(current-build-folder))/makefile
 
 endif
 
-else ifeq ($(current-folder),source)
+else ifeq ($(current-build-folder),source)
 
 release/esmodule.create:
 	$(if $(verbose),@echo create .... $(patsubst %.create,%,$@))
@@ -96,7 +98,10 @@ release/esmodule.create:
 
 endif
 
-release/%.cjs: babel-parameter := --env-name commonjs
-release/%.js: babel-parameter := --env-name esmodule
+# release/%.cjs: babel-parameter := --env-name commonjs
+# release/%.js: babel-parameter := --env-name esmodule
+
+release/%.cjs: export NODE_ENV := commonjs
+release/%.js: export NODE_ENV := esmodule
 
 endif

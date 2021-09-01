@@ -1,52 +1,38 @@
+import FileSystem from 'fs-extra'
 import Shell from 'shelljs'
-import BaseTest from 'ava'
+import Path from 'path'
+import Test from 'ava'
 
-import { Package } from '../library/package.js'
+const FilePath = __filePath
+const FolderPath = Path.dirname(FilePath)
+const LogPath = Path.resolve(`${FolderPath}/../../data/make/make.log`)
 
-const Test = BaseTest.serial
-
-Test('(default)', (test) => {
-
-  let result = Shell.exec('make', { 'silent': true })
-  let stdout = result.stdout.split('\n')
-
-  test.is(result.code, 0)
-  test.true(stdout.includes(`${Package.name}@${Package.version}`))
-
+Test.before(async () => {
+  await FileSystem.ensureDir(Path.dirname(LogPath))
+  await FileSystem.remove(LogPath)
 })
 
-Test('version', (test) => {
-
-  let result = Shell.exec('make version', { 'silent': true })
-  let stdout = result.stdout.split('\n')
-
-  test.is(result.code, 0)
-  test.true(stdout.includes(`${Package.name}@${Package.version}`))
-
+Test.beforeEach((test) => {
+  Shell.exec(`echo "${test.title.replace(/^beforeEach hook for (.*)$/, 'Test.serial(\'$1\', (test) => { ... })')}" >> ${LogPath}`, { 'silent': true })
 })
 
-Test('build (dry-run)', (test) => {
-
-  let result = Shell.exec('make --dry-run build', { 'silent': true })
-  let stdout = result.stdout.split('\n')
-
-  test.is(result.code, 0)
-
-  test.true(stdout.includes('npx shx mkdir -p release/esmodule'))
-  test.true(stdout.includes('npx shx mkdir -p release/commonjs'))
-
+Test.serial('default', (test) => {
+  test.is(Shell.exec(`make --dry-run 1>> ${LogPath} 2>> ${LogPath}`, { 'silent': true }).code, 0)
 })
 
-Test('build exclude-folder=... (dry-run)', (test) => {
+Test.serial('null', (test) => {
+  // an invalid target fails
+  test.is(Shell.exec(`make --dry-run null 1>> ${LogPath} 2>> ${LogPath}`, { 'silent': true }).code, 2)
+})
 
-  let result = Shell.exec('make --dry-run build exclude-folder=source/esmodule/test', { 'silent': true })
-  let stdout = result.stdout.split('\n')
+Test.serial('version', (test) => {
+  test.is(Shell.exec(`make --dry-run version 1>> ${LogPath} 2>> ${LogPath}`, { 'silent': true }).code, 0)
+})
 
-  test.is(result.code, 0)
+Test.serial('build', (test) => {
+  test.is(Shell.exec(`make --dry-run build 1>> ${LogPath} 2>> ${LogPath}`, { 'silent': true }).code, 0)
+})
 
-  test.true(stdout.includes('npx shx mkdir -p release/esmodule'))
-  test.true(stdout.includes('npx shx mkdir -p release/commonjs'))
-  test.false(stdout.includes('npx shx mkdir -p release/esmodule/test'))
-  test.false(stdout.includes('npx shx mkdir -p release/commonjs/test'))
-
+Test.afterEach(() => {
+  Shell.exec(`echo >> ${LogPath}`, { 'silent': true })
 })

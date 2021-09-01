@@ -1,16 +1,22 @@
 
 include $(mablung-makefile-path)/include/common
 
-ifndef current-folder
+ifndef current-build-folder
 
 # --------------------
-#  version
+# .PHONY: version
 # --------------------
+
+ifeq ($(project-name),mablung-makefile-environment)
 
 version::
-	$(if $\
-		$(shell npx shx which mablung-makefile-environment),$\
-		@npx mablung-makefile-environment get-version,$\
-		@$(MAKE) run argument="release/command/mablung-makefile-environment.js get-version")
+	@$(MAKE) --no-print-directory run argument="release/command/index.js get-version"
+
+else
+
+version::
+	@npx mablung-makefile-environment get-version
+
+endif
 
 endif
