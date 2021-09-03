@@ -3,34 +3,7 @@ ifndef current-build-folder
 include $(mablung-makefile-path)/include/build
 else
 
-# ifndef filter-environment-build-item
-# filter-environment-build-item = $(1)
-# endif
-
-# filter-build-item =	$(call $\
-# 											filter-environment-build-item,$\
-# 											$(sort $\
-# 												$(strip $\
-# 													$(patsubst $\
-# 														release/esmodule/%,$\
-# 														release/commonjs/%,$\
-# 														$(patsubst $\
-# 															%.js,$\
-# 															%.cjs,$\
-# 															$(filter $\
-# 																release/esmodule%,$\
-# 																$(1)))) $\
-# 													$(1))))
-
 include $(mablung-makefile-path)/include/build
-
-# $(info --------------------)
-# $(info current-build-folder ... $(current-build-folder))
-# $(info exclude-build-folder ... $(exclude-build-folder))
-# $(info make-folder ............ $(make-folder))
-# $(info build-folder ........... $(build-folder))
-# $(info build-item ............. $(build-item))
-# $(info --------------------)
 
 ifeq ($(findstring source/esmodule,$(current-build-folder)),source/esmodule)
 
@@ -44,7 +17,7 @@ build-commonjs-item = $(patsubst $\
 
 build:: $(build-commonjs-item)
 	@:
-	
+
 # this rule replaces the same rule in the included makefile
 release/%.create:
 	$(if $(verbose),@echo create .... $(patsubst %.create,%,$@))
@@ -65,7 +38,13 @@ release/commonjs/.eslintrc.json: source/esmodule/.eslintrc.json
 release/commonjs/%/.eslintrc.json: source/esmodule/%/.eslintrc.json
 	$(if $(verbose),@echo ignore .... $<)
 
-# release/commonjs/%.cjs: babel-parameter := --env-name commonjs
+release/commonjs/%.cjs: export NODE_ENV := commonjs
+release/commonjs/%.cjs: source/esmodule/%.cjs
+	$(eval export SOURCE_PATH := $<)
+	$(eval export RELEASE_PATH := $@)
+	@echo compile ... $@ --source-maps $(or $(source-map),true) $(babel-parameter)
+	@npx babel $< --out-file $@ --source-maps $(or $(source-map),true) $(babel-parameter)
+
 release/commonjs/%.cjs: export NODE_ENV := commonjs
 release/commonjs/%.cjs: source/esmodule/%.js
 	$(eval export SOURCE_PATH := $<)
@@ -97,9 +76,6 @@ release/esmodule.create:
 	@npx shx mkdir -p $(subst release/esmodule,release/commonjs,$(patsubst %.create,%,$@))
 
 endif
-
-# release/%.cjs: babel-parameter := --env-name commonjs
-# release/%.js: babel-parameter := --env-name esmodule
 
 release/%.cjs: export NODE_ENV := commonjs
 release/%.js: export NODE_ENV := esmodule

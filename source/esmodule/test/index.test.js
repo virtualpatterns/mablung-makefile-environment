@@ -23,8 +23,11 @@ Test('commonjs/test/resource/index.cjs', async (test) => {
 })
 
 Test('esmodule/test/resource/index.js', async (test) => {
-  // Require.resolve(...) fails since the plugin converts the .js to .cjs
   test.true(await FileSystem.pathExists(`${FolderPath}/../../esmodule/test/resource/index.js`))
+})
+
+Test('resource/file-path.cjs', (test) => {
+  return test.notThrowsAsync(import('./resource/file-path.cjs'))
 })
 
 Test('resource/index.js', async (test) => {
