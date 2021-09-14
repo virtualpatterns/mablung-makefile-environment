@@ -1,39 +1,41 @@
+import { CreateLoggedProcess, ForkedProcess } from '@virtualpatterns/mablung-worker'
 import FileSystem from 'fs-extra'
 import Path from 'path'
 import Test from 'ava'
 
-import { IndexProcess } from './index-process.js'
-
 const FilePath = __filePath
 const FolderPath = Path.dirname(FilePath)
-const LogPath = Path.resolve(`${FolderPath}/../../../data/command/index.log`)
+const LogPath = FilePath.replace(/\/release\//, '/data/').replace(/\.c?js$/, '.log')
+const Require = __require
+
+const LoggedProcess = CreateLoggedProcess(ForkedProcess, LogPath)
 
 Test.before(async () => {
   await FileSystem.ensureDir(Path.dirname(LogPath))
   await FileSystem.remove(LogPath)
 })
 
-Test('default', async (test) => {
-  let process = new IndexProcess(LogPath)
+Test.serial('default', async (test) => {
+  let process = new LoggedProcess(Require.resolve('../../command/index.js'))
   test.is(await process.whenExit(), 1)
 })
 
-Test('get-version', async (test) => {
-  let process = new IndexProcess(LogPath, { 'get-version': true })
+Test.serial('get-version', async (test) => {
+  let process = new LoggedProcess(Require.resolve('../../command/index.js'), { 'get-version': true })
   test.is(await process.whenExit(), 0)
 })
 
-Test('get-path', async (test) => {
-  let process = new IndexProcess(LogPath, { 'get-path': true })
+Test.serial('get-path', async (test) => {
+  let process = new LoggedProcess(Require.resolve('../../command/index.js'), { 'get-path': true })
   test.is(await process.whenExit(), 0)
 })
 
-Test('update-configuration', async (test) => {
-  let process = new IndexProcess(LogPath, { 'update-configuration': true })
+Test.serial('update-configuration', async (test) => {
+  let process = new LoggedProcess(Require.resolve('../../command/index.js'), { 'update-configuration': true })
   test.is(await process.whenExit(), 1)
 })
 
-Test('update-configuration configuration-0', async (test) => {
+Test.serial('update-configuration configuration-0', async (test) => {
 
   let sourcePath = `${FolderPath}/../../..`
   let sourceCheckPath = `${sourcePath}/.eslintrc.json`
@@ -51,7 +53,7 @@ Test('update-configuration configuration-0', async (test) => {
     FileSystem.readJson(sourceCompilePath, { 'encoding': 'utf-8' })
   ])
 
-  let process = new IndexProcess(LogPath, { 'update-configuration': targetPath })
+  let process = new LoggedProcess(Require.resolve('../../command/index.js'), { 'update-configuration': targetPath })
 
   try {
 
@@ -90,7 +92,7 @@ Test('update-configuration configuration-0', async (test) => {
 
 })
 
-Test('update-configuration configuration-1', async (test) => {
+Test.serial('update-configuration configuration-1', async (test) => {
 
   let sourcePath = `${FolderPath}/../../..`
   let sourceCheckPath = `${sourcePath}/.eslintrc.json`
@@ -112,7 +114,7 @@ Test('update-configuration configuration-1', async (test) => {
     FileSystem.readJson(targetCompilePath, { 'encoding': 'utf-8' })
   ])
 
-  let process = new IndexProcess(LogPath, { 'update-configuration': targetPath })
+  let process = new LoggedProcess(Require.resolve('../../command/index.js'), { 'update-configuration': targetPath })
 
   try {
 

@@ -1,12 +1,13 @@
+import { CreateLoggedProcess, ForkedProcess } from '@virtualpatterns/mablung-worker'
 import FileSystem from 'fs-extra'
 import Path from 'path'
 import Test from 'ava'
 
-import { IndexProcess } from './index-process.js'
-
 const FilePath = __filePath
-const FolderPath = Path.dirname(FilePath)
-const LogPath = Path.resolve(`${FolderPath}/../../../data/header/index.log`)
+const LogPath = FilePath.replace(/\/release\//, '/data/').replace(/\.c?js$/, '.log')
+const Require = __require
+
+const LoggedProcess = CreateLoggedProcess(ForkedProcess, LogPath)
 
 Test.before(async () => {
   await FileSystem.ensureDir(Path.dirname(LogPath))
@@ -14,6 +15,6 @@ Test.before(async () => {
 })
 
 Test('default', async (test) => {
-  let process = new IndexProcess(LogPath)
+  let process = new LoggedProcess(Require.resolve('../../header/index.js'))
   test.is(await process.whenExit(), 0)
 })
