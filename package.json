@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@virtualpatterns/mablung-check-dependency": "0.0.26-14",
-    "@virtualpatterns/mablung-worker": "0.0.2-47",
+    "@virtualpatterns/mablung-worker": "0.0.2-50",
     "ava": "^3.15.0"
   }
 }
