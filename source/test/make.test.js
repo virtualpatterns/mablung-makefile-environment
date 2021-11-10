@@ -4,7 +4,7 @@ import Path from 'path'
 import Test from 'ava'
 
 const FilePath = __filePath
-const LogPath = FilePath.replace(/\/release\//, '/data/').replace(/\.c?js$/, '.log')
+const LogPath = FilePath.replace('/release/', '/data/').replace(/\.c?js$/, '.log')
 const Process = process
 
 const LoggedProcess = CreateLoggedProcess(SpawnedProcess, LogPath)
@@ -34,12 +34,3 @@ Test.serial('build', async (test) => {
   let process = new LoggedProcess(Process.env.MAKE_PATH, [ 'build' ])
   test.is(await process.whenExit(), 0)
 })
-
-// Test.serial('default', async (test) => {
-
-//   let process = new LoggedProcess(LogPath, Process.env.MAKE_PATH, { '--dry-run': false })
-
-//   test.is(await process.whenExit(), 0)
-
-//   // test.is(Shell.exec(`make --dry-run 1>> ${LogPath} 2>> ${LogPath}`, { 'silent': true }).code, 0)
-// })

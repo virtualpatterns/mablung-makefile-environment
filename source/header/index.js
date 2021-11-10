@@ -8,6 +8,6 @@ try {
   console.log(`Environment: ${Process.env.NODE_ENV}`)
 /* c8 ignore next 4 */
 } catch (error) {
-  console.error(error)
   Process.exitCode = 1
+  console.error(error)
 }

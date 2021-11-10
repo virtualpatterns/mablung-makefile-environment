@@ -25,14 +25,14 @@ Command
   .description('Return the name and version of the package.')
   .action(() => {
 
-    process.exitCode = 0
+    Process.exitCode = 0
 
     try {
       console.log(`${Package.name}@${Package.version}`)
     /* c8 ignore next 4 */
     } catch (error) {
+      Process.exitCode = 1
       console.error(error)
-      process.exitCode = 1
     }
 
   })
@@ -42,14 +42,14 @@ Command
   .description('Return the path of the makefile.')
   .action(() => {
 
-    process.exitCode = 0
+    Process.exitCode = 0
 
     try {
       console.log(Require.resolve('../../makefile'))
     /* c8 ignore next 4 */
     } catch (error) {
+      Process.exitCode = 1
       console.error(error)
-      process.exitCode = 1
     }
 
   })
@@ -60,7 +60,7 @@ Command
   .description('Update the .eslintrc.json and babel.config.json files at the given path.')
   .action(async (path) => {
 
-    process.exitCode = 0
+    Process.exitCode = 0
 
     try {
 
@@ -92,8 +92,8 @@ Command
 
     /* c8 ignore next 4 */
     } catch (error) {
+      Process.exitCode = 1
       console.error(error)
-      process.exitCode = 1
     }
 
   })
