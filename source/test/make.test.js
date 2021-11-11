@@ -1,12 +1,13 @@
-import { CreateLoggedProcess, SpawnedProcess } from '@virtualpatterns/mablung-worker'
+import { CreateLoggedProcess } from '@virtualpatterns/mablung-worker/test'
+import { SpawnedProcess } from '@virtualpatterns/mablung-worker'
 import FileSystem from 'fs-extra'
 import Path from 'path'
 import Test from 'ava'
 
 const FilePath = __filePath
-const LogPath = FilePath.replace('/release/', '/data/').replace(/\.c?js$/, '.log')
 const Process = process
 
+const LogPath = FilePath.replace('/release/', '/data/').replace(/\.c?js$/, '.log')
 const LoggedProcess = CreateLoggedProcess(SpawnedProcess, LogPath)
 
 Test.before(async () => {
