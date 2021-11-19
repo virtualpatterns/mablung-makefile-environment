@@ -3,6 +3,7 @@
   "exclude": [
     "release/commonjs/sandbox",
     "release/esmodule/sandbox",
+    "release/test/command/resource/target-1/get-header.js",
     "ava.config.cjs"
   ],
   "reporter": [
