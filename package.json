@@ -3,16 +3,14 @@
   "bin": "./release/command/index.js",
   "description": "TBD",
   "exports": {
-    "./header": "./release/header/index.js",
     "./package.json": "./package.json"
   },
   "files": [
     "include",
     "release/command",
-    "release/header",
-    "release/library",
     ".eslintrc.json",
     "babel.config.json",
+    "get-header.js",
     "makefile"
   ],
   "license": "GPL-3.0+",
