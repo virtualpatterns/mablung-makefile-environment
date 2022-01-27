@@ -3,6 +3,7 @@
   "exclude": [
     "ava.config.cjs",
     "release/commonjs/sandbox",
+    "release/commonjs/test/resource/copy",
     "release/esmodule/sandbox",
     "release/esmodule/test/resource/copy"
   ],
