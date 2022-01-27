@@ -1,10 +1,10 @@
 {
   "all": true,
   "exclude": [
+    "ava.config.cjs",
     "release/commonjs/sandbox",
     "release/esmodule/sandbox",
-    "release/test/command/resource/target-1/get-header.js",
-    "ava.config.cjs"
+    "release/esmodule/test/resource/copy"
   ],
   "reportDir": "data/c8", 
   "reporter": [
