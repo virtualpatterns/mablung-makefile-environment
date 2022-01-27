@@ -5,11 +5,11 @@ import Path from 'path'
 import Test from 'ava'
 
 const FilePath = __filePath
-const FolderPath = Path.dirname(FilePath)
+const FolderPath = __folderPath
 const Process = process
-const Require = __require
 
-const LogPath = FilePath.replace('/release/', '/data/').replace(/\.c?js$/, '.log')
+const DataPath = FilePath.replace('/release/', '/data/').replace('.test.js', '')
+const LogPath = DataPath.concat('.log')
 const LoggedProcess = CreateLoggedProcess(ForkedProcess, LogPath)
 
 Test.before(async () => {
@@ -17,56 +17,45 @@ Test.before(async () => {
   return FileSystem.remove(LogPath)
 })
 
-Test.serial('default', async (test) => {
-  let process = new LoggedProcess(Require.resolve('../../command/index.js'))
+Test('default', async (test) => {
+  let process = new LoggedProcess(Path.resolve(FolderPath, '../../command/index.js'))
   test.is(await process.whenExit(), 1)
 })
 
-Test.serial('get-version', async (test) => {
-  let process = new LoggedProcess(Require.resolve('../../command/index.js'), { 'get-version': true })
+Test('get-version', async (test) => {
+  let process = new LoggedProcess(Path.resolve(FolderPath, '../../command/index.js'), { 'get-version': true })
   test.is(await process.whenExit(), 0)
 })
 
-Test.serial('get-version throws Error', async (test) => {
-  let process = new LoggedProcess(Require.resolve('../../command/index.js'), { 'get-version': true }, { 'execArgv': [ ...Process.execArgv, '--require', Require.resolve('./require/get-version.cjs') ] })
+Test('get-version throws Error', async (test) => {
+  let process = new LoggedProcess(Path.resolve(FolderPath, '../../command/index.js'), { 'get-version': true }, { 'execArgv': [ ...Process.execArgv, '--require', Path.resolve(FolderPath, 'require/get-version.cjs') ] })
   test.is(await process.whenExit(), 1)
 })
 
-Test.serial('get-path', async (test) => {
-  let process = new LoggedProcess(Require.resolve('../../command/index.js'), { 'get-path': true })
+Test('get-path', async (test) => {
+  let process = new LoggedProcess(Path.resolve(FolderPath, '../../command/index.js'), { 'get-path': true })
   test.is(await process.whenExit(), 0)
 })
 
-Test.serial('get-path throws Error', async (test) => {
-  let process = new LoggedProcess(Require.resolve('../../command/index.js'), { 'get-path': true }, { 'execArgv': [ ...Process.execArgv, '--require', Require.resolve('./require/get-path.cjs') ] })
+Test('get-path throws Error', async (test) => {
+  let process = new LoggedProcess(Path.resolve(FolderPath, '../../command/index.js'), { 'get-path': true }, { 'execArgv': [ ...Process.execArgv, '--require', Path.resolve(FolderPath, 'require/get-path.cjs') ] })
   test.is(await process.whenExit(), 1)
 })
 
-Test.serial('get-header', async (test) => {
-  let process = new LoggedProcess(Require.resolve('../../command/index.js'), { 'get-header': true })
-  test.is(await process.whenExit(), 0)
-})
-
-Test.serial('get-header throws Error', async (test) => {
-  let process = new LoggedProcess(Require.resolve('../../command/index.js'), { 'get-header': true }, { 'execArgv': [ ...Process.execArgv, '--require', Require.resolve('./require/get-header.cjs') ] })
+Test('update', async (test) => {
+  let process = new LoggedProcess(Path.resolve(FolderPath, '../../command/index.js'), { 'update': true })
   test.is(await process.whenExit(), 1)
 })
 
-Test.serial('update', async (test) => {
-  let process = new LoggedProcess(Require.resolve('../../command/index.js'), { 'update': true })
-  test.is(await process.whenExit(), 1)
-})
+Test('update target-0', async (test) => {
 
-Test.serial('update target-0', async (test) => {
-
-  let sourcePath = `${FolderPath}/../../..`
+  let sourcePath = Path.resolve(FolderPath, '../../..')
   let sourceCheckPath = `${sourcePath}/.eslintrc.json`
   let sourceCompilePath = `${sourcePath}/babel.config.json`
 
-  let targetPath = `${FolderPath}/resource/target-0`
+  let targetPath = Path.resolve(FolderPath, 'resource/target-0')
   let targetCheckPath = `${targetPath}/.eslintrc.json`
   let targetCompilePath = `${targetPath}/babel.config.json`
-  let targetGetHeaderPath = `${targetPath}/get-header.js`
 
   let [
     sourceCheck,
@@ -76,7 +65,7 @@ Test.serial('update target-0', async (test) => {
     FileSystem.readJson(sourceCompilePath, { 'encoding': 'utf-8' })
   ])
 
-  let process = new LoggedProcess(Require.resolve('../../command/index.js'), { 'update': targetPath })
+  let process = new LoggedProcess(Path.resolve(FolderPath, '../../command/index.js'), { 'update': targetPath })
 
   try {
 
@@ -84,10 +73,8 @@ Test.serial('update target-0', async (test) => {
 
     test.deepEqual(await Promise.all([
       FileSystem.pathExists(targetCheckPath),
-      FileSystem.pathExists(targetCompilePath),
-      FileSystem.pathExists(targetGetHeaderPath)
+      FileSystem.pathExists(targetCompilePath)
     ]), [
-      true,
       true,
       true
     ])
@@ -101,52 +88,42 @@ Test.serial('update target-0', async (test) => {
     ])
 
     test.deepEqual(targetCheckAfter, sourceCheck)
-    test.deepEqual(targetCompileAfter.presets[0][1].header.exclude, [])
-
-    sourceCompile.presets[0][1].header.exclude = []
     test.deepEqual(targetCompileAfter, sourceCompile)
 
   } finally {
 
     await Promise.all([
       FileSystem.remove(targetCheckPath),
-      FileSystem.remove(targetCompilePath),
-      FileSystem.remove(targetGetHeaderPath)
+      FileSystem.remove(targetCompilePath)
     ])
 
   }
 
 })
 
-Test.serial('update target-1', async (test) => {
+Test('update target-1', async (test) => {
 
-  let sourcePath = `${FolderPath}/../../..`
+  let sourcePath = Path.resolve(FolderPath, '../../..')
   let sourceCheckPath = `${sourcePath}/.eslintrc.json`
   let sourceCompilePath = `${sourcePath}/babel.config.json`
-  let sourceGetHeaderPath = `${sourcePath}/get-header.js`
 
-  let targetPath = `${FolderPath}/resource/target-1`
+  let targetPath = Path.resolve(FolderPath, 'resource/target-1')
   let targetCheckPath = `${targetPath}/.eslintrc.json`
   let targetCompilePath = `${targetPath}/babel.config.json`
-  let targetGetHeaderPath = `${targetPath}/get-header.js`
 
   let [
     sourceCheck,
     sourceCompile,
-    sourceGetHeader,
     targetCheckBefore,
-    targetCompileBefore,
-    targetGetHeaderBefore
+    targetCompileBefore
   ] = await Promise.all([
     FileSystem.readJson(sourceCheckPath, { 'encoding': 'utf-8' }),
     FileSystem.readJson(sourceCompilePath, { 'encoding': 'utf-8' }),
-    FileSystem.readFile(sourceGetHeaderPath, { 'encoding': 'utf-8' }),
     FileSystem.readJson(targetCheckPath, { 'encoding': 'utf-8' }),
-    FileSystem.readJson(targetCompilePath, { 'encoding': 'utf-8' }),
-    FileSystem.readFile(targetGetHeaderPath, { 'encoding': 'utf-8' })
+    FileSystem.readJson(targetCompilePath, { 'encoding': 'utf-8' })
   ])
 
-  let process = new LoggedProcess(Require.resolve('../../command/index.js'), { 'update': targetPath })
+  let process = new LoggedProcess(Path.resolve(FolderPath, '../../command/index.js'), { 'update': targetPath })
 
   try {
 
@@ -154,29 +131,20 @@ Test.serial('update target-1', async (test) => {
 
     let [
       targetCheckAfter,
-      targetCompileAfter,
-      targetGetHeaderAfter
+      targetCompileAfter
     ] = await Promise.all([
       FileSystem.readJson(targetCheckPath, { 'encoding': 'utf-8' }),
-      FileSystem.readJson(targetCompilePath, { 'encoding': 'utf-8' }),
-      FileSystem.readFile(targetGetHeaderPath, { 'encoding': 'utf-8' })
+      FileSystem.readJson(targetCompilePath, { 'encoding': 'utf-8' })
     ])
 
     test.deepEqual(targetCheckAfter, sourceCheck)
-    test.deepEqual(targetCompileAfter.presets[0][1].header.exclude, targetCompileBefore.presets[0][1].header.exclude)
-
-    sourceCompile.presets[0][1].header.exclude = []
-    targetCompileAfter.presets[0][1].header.exclude = []
     test.deepEqual(targetCompileAfter, sourceCompile)
-
-    test.is(targetGetHeaderAfter, sourceGetHeader)
 
   } finally {
 
     await Promise.all([
       FileSystem.writeJson(targetCheckPath, targetCheckBefore, { 'encoding': 'utf-8', 'spaces': 2 }),
-      FileSystem.writeJson(targetCompilePath, targetCompileBefore, { 'encoding': 'utf-8', 'spaces': 2 }),
-      FileSystem.writeFile(targetGetHeaderPath, targetGetHeaderBefore, { 'encoding': 'utf-8' })
+      FileSystem.writeJson(targetCompilePath, targetCompileBefore, { 'encoding': 'utf-8', 'spaces': 2 })
     ])
 
   }

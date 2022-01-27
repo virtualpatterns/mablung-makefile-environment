@@ -1,21 +1,6 @@
 {
   "presets": [
-    [
-      "@virtualpatterns/babel-preset-mablung-makefile",
-      {
-        "header": {
-          "content": [
-            "!node get-header.js"
-          ],
-          "exclude": [
-            "source/esmodule/sandbox",
-            "source/esmodule/test",
-            "source/test",
-            "source/index.js"
-          ]
-        }
-      }
-    ]
+    "@virtualpatterns/babel-preset-mablung-makefile"
   ],
   "env": {
     "commonjs": {
@@ -27,6 +12,10 @@
               {
                 "searchFor": "__filePath",
                 "replaceWith": "__filename"
+              },
+              {
+                "searchFor": "__folderPath",
+                "replaceWith": "__dirname"
               },
               {
                 "searchFor": "__require",
@@ -77,6 +66,29 @@
                     "source": "url",
                     "option": {
                       "nameHint": "URL"
+                    }
+                  }
+                ]
+              },
+              {
+                "searchFor": "__folderPath",
+                "replaceWith": "__importIdentifier_1.dirname(__importIdentifier_0.fileURLToPath(import.meta.url))",
+                "parserOption": {
+                  "sourceType": "module"
+                },
+                "addImport": [
+                  {
+                    "type": "default",
+                    "source": "url",
+                    "option": {
+                      "nameHint": "URL"
+                    }
+                  },
+                  {
+                    "type": "default",
+                    "source": "path",
+                    "option": {
+                      "nameHint": "Path"
                     }
                   }
                 ]

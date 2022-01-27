@@ -2,10 +2,7 @@
 include $(mablung-makefile-path)/include/common
 
 ifndef current-build-folder
-
-# --------------------
-# .PHONY: version
-# --------------------
+ifndef current-clean-folder
 
 ifeq ($(project-name),mablung-makefile-environment)
 
@@ -19,4 +16,5 @@ version::
 
 endif
 
+endif
 endif

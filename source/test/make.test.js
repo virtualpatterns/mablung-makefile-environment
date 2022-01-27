@@ -7,31 +7,26 @@ import Test from 'ava'
 const FilePath = __filePath
 const Process = process
 
-const LogPath = FilePath.replace('/release/', '/data/').replace(/\.c?js$/, '.log')
+const DataPath = FilePath.replace('/release/', '/data/').replace('.test.js', '')
+const LogPath = DataPath.concat('.log')
 const LoggedProcess = CreateLoggedProcess(SpawnedProcess, LogPath)
 
 Test.before(async () => {
   await FileSystem.ensureDir(Path.dirname(LogPath))
-  await FileSystem.remove(LogPath)
+  return FileSystem.remove(LogPath)
 })
 
-Test.serial('default', async (test) => {
+Test('default', async (test) => {
   let process = new LoggedProcess(Process.env.MAKE_PATH, [])
   test.is(await process.whenExit(), 0)
 })
 
-Test.serial('null', async (test) => {
-  // an invalid target fails
-  let process = new LoggedProcess(Process.env.MAKE_PATH, [ 'null' ])
-  test.is(await process.whenExit(), 2)
-})
-
-Test.serial('version', async (test) => {
-  let process = new LoggedProcess(Process.env.MAKE_PATH, [ 'version' ])
+Test('version', async (test) => {
+  let process = new LoggedProcess(Process.env.MAKE_PATH, [ '--dry-run', 'version' ])
   test.is(await process.whenExit(), 0)
 })
 
-Test.serial('build', async (test) => {
-  let process = new LoggedProcess(Process.env.MAKE_PATH, [ 'build' ])
+Test('build', async (test) => {
+  let process = new LoggedProcess(Process.env.MAKE_PATH, [ '--dry-run', 'build' ])
   test.is(await process.whenExit(), 0)
 })

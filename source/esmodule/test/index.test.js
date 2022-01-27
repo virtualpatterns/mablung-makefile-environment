@@ -2,63 +2,34 @@ import FileSystem from 'fs-extra'
 import Path from 'path'
 import Test from 'ava'
 
-const FilePath = __filePath
-const FolderPath = Path.dirname(FilePath)
-const Process = process
-const Require = __require
+const FolderPath = __folderPath
 
-Test('MAKEFILE_PATH', (test) => {
-  test.deepEqual(Process.env.MAKEFILE_PATH.split(' '), [
-    Require.resolve('../../../makefile'),
-    Require.resolve('../../../include/common'),
-    Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/common') ,
-    Require.resolve('../../../include/build'),
-    Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/build'),
-    Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/debug'),
-    Require.resolve('../../../node_modules/@virtualpatterns/mablung-makefile/include/clean')
-  ])
+const EmptyPathExists = FileSystem.pathExistsSync(Path.resolve(FolderPath, '../../../source/esmodule/test/resource/empty'))
+
+Test('./resource/index.js', async (test) => {
+  test.true((await import('./resource/index.js')).OK)
 })
 
-Test('commonjs/test/resource/index.cjs', async (test) => {
-  test.true(await FileSystem.pathExists(`${FolderPath}/../../commonjs/test/resource/index.cjs`))
+Test('./resource/index.json', async (test) => {
+  test.true((await FileSystem.readJson(Path.resolve(FolderPath, './resource/index.json'), { 'encoding': 'utf-8' })).OK)
 })
 
-Test('esmodule/test/resource/index.js', async (test) => {
-  test.true(await FileSystem.pathExists(`${FolderPath}/../../esmodule/test/resource/index.js`))
+Test('./resource/file-path.js', async (test) => {
+  test.is((await import('./resource/file-path.js')).FilePath, Path.resolve(FolderPath, './resource/file-path.js'))
 })
 
-Test('resource/file-path.cjs', (test) => {
-  return test.notThrowsAsync(import('./resource/file-path.cjs'))
+Test('./resource/folder-path.js', async (test) => {
+  test.is((await import('./resource/folder-path.js')).FolderPath, Path.resolve(FolderPath, './resource'))
 })
 
-Test('resource/index.js', async (test) => {
-  test.truthy((await import('./resource/index.js')).OK)
+Test('./resource/require.js', async (test) => {
+  test.is((await import('./resource/require.js')).FilePath, Path.resolve(FolderPath, './resource/file-path.js'))
 })
 
-Test('resource/index.json', async (test) => {
-  test.true((await FileSystem.readJson(Require.resolve('./resource/index.json'), { 'encoding': 'utf-8' })).OK)
+;(EmptyPathExists ? Test : Test.skip)('./resource/empty', async (test) => {
+  test.true(await FileSystem.pathExists(Path.resolve(FolderPath, './resource/empty')))
 })
 
-Test('resource/sample.babelrc.json', async (test) => {
-  test.true((await FileSystem.readJson(Require.resolve('./resource/sample.babelrc.json'), { 'encoding': 'utf-8' })).OK)
-})
-
-Test('resource/sample.DS_Store', async (test) => {
-  test.true(await FileSystem.pathExists(Require.resolve('./resource/sample.DS_Store')))
-})
-
-Test('resource/sample.eslintrc.json', async (test) => {
-  test.true((await FileSystem.readJson(Require.resolve('./resource/sample.eslintrc.json'), { 'encoding': 'utf-8' })).OK)
-})
-
-Test('resource/copy/makefile', async (test) => {
-  test.false(await FileSystem.pathExists(`${FolderPath}/resource/copy/makefile`))
-})
-
-Test('resource/copy/index.json', async (test) => {
-  test.true((await FileSystem.readJson(Require.resolve('./resource/copy/index.json'), { 'encoding': 'utf-8' })).OK)
-})
-
-Test('resource/ignore', async (test) => {
-  test.false(await FileSystem.pathExists(`${FolderPath}/resource/ignore`))
+Test('./resource/ignore', async (test) => {
+  test.false(await FileSystem.pathExists(Path.resolve(FolderPath, './resource/ignore')))
 })

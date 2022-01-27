@@ -22,25 +22,25 @@
   "type": "module",
   "version": "0.0.26-35",
   "dependencies": {
-    "@babel/cli": "^7.16.0",
-    "@babel/core": "^7.16.0",
+    "@babel/cli": "^7.16.8",
+    "@babel/core": "^7.16.12",
     "@babel/plugin-syntax-import-meta": "^7.10.4",
-    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-env": "^7.16.11",
     "@pwn/is": "^1.0.2",
-    "@virtualpatterns/babel-plugin-mablung-replace-identifier": "0.0.26-27",
-    "@virtualpatterns/babel-plugin-mablung-replace-string-literal": "0.0.26-26",
-    "@virtualpatterns/babel-preset-mablung-makefile": "0.0.26-58",
-    "@virtualpatterns/eslint-config-mablung-makefile": "0.0.26-57",
-    "@virtualpatterns/mablung-makefile": "0.0.26-144",
-    "@virtualpatterns/mablung-source-map-support": "0.0.26-46",
+    "@virtualpatterns/babel-plugin-mablung-replace-identifier": "0.0.26-32",
+    "@virtualpatterns/babel-plugin-mablung-replace-string-literal": "0.0.26-30",
+    "@virtualpatterns/babel-preset-mablung-makefile": "0.0.26-71",
+    "@virtualpatterns/eslint-config-mablung-makefile": "0.0.26-71",
+    "@virtualpatterns/mablung-makefile": "0.0.26-166",
+    "@virtualpatterns/mablung-source-map-support": "0.0.26-57",
     "commander": "^8.3.0",
     "fs-extra": "^10.0.0",
-    "shx": "^0.3.3"
+    "shx": "^0.3.4"
   },
   "devDependencies": {
-    "@virtualpatterns/mablung-check-dependency": "0.0.26-41",
-    "@virtualpatterns/mablung-worker": "0.0.2-104",
-    "ava": "^3.15.0",
+    "@virtualpatterns/mablung-check-dependency": "0.0.26-48",
+    "@virtualpatterns/mablung-worker": "0.0.2-115",
+    "ava": "^4.0.1",
     "sinon": "^12.0.1"
   }
 }

@@ -1,7 +1,5 @@
 
-ifndef current-build-folder
-include $(mablung-makefile-path)/include/build
-else
+ifndef current-clean-folder
 
 include $(mablung-makefile-path)/include/build
 
@@ -40,17 +38,13 @@ release/commonjs/%/.eslintrc.json: source/esmodule/%/.eslintrc.json
 
 release/commonjs/%.cjs: export NODE_ENV := commonjs
 release/commonjs/%.cjs: source/esmodule/%.cjs
-	$(eval export SOURCE_PATH := $<)
-	$(eval export RELEASE_PATH := $@)
-	@echo compile ... $@ --source-maps $(or $(source-map),true) $(babel-parameter)
-	@npx babel $< --out-file $@ --source-maps $(or $(source-map),true) $(babel-parameter)
+	@echo compile ... $@ $(babel-parameter)
+	@npx babel $< --out-file $@ --source-maps true $(babel-parameter)
 
 release/commonjs/%.cjs: export NODE_ENV := commonjs
 release/commonjs/%.cjs: source/esmodule/%.js
-	$(eval export SOURCE_PATH := $<)
-	$(eval export RELEASE_PATH := $@)
-	@echo compile ... $@ --source-maps $(or $(source-map),true) $(babel-parameter)
-	@npx babel $< --out-file $@ --source-maps $(or $(source-map),true) $(babel-parameter)
+	@echo compile ... $@ $(babel-parameter)
+	@npx babel $< --out-file $@ --source-maps true $(babel-parameter)
 
 release/commonjs/%: source/esmodule/%
 	@echo copy ...... $@
@@ -61,7 +55,8 @@ ifeq ($(findstring source/esmodule/,$(current-build-folder)),source/esmodule/)
 # this rule is executed after the same rule in the included makefile
 copy::
 	$(if $(verbose),@echo copy ...... $(patsubst source/esmodule/%,release/commonjs/%,$(current-build-folder)))
-	@npx shx cp -R $(current-build-folder) $(call trim-folder-path,$(patsubst source/esmodule/%,release//commonjs/%,$(current-build-folder)))
+	@npx shx rm -Rf $(patsubst source/esmodule/%,release/commonjs/%,$(current-build-folder))
+	@npx shx cp -R $(current-build-folder) $(call trim-folder-path,$(patsubst source/esmodule/%,release/commonjs/%,$(current-build-folder)))
 	$(if $(verbose),@echo delete .... $(patsubst source/esmodule/%,release/commonjs/%,$(current-build-folder))/makefile)
 	@npx shx rm -f $(patsubst source/esmodule/%,release/commonjs/%,$(current-build-folder))/makefile
 

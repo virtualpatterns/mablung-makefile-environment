@@ -2,6 +2,7 @@
   "extends": "@virtualpatterns/eslint-config-mablung-makefile",
   "globals": {
     "__filePath": "readonly",
+    "__folderPath": "readonly",
     "__require": "readonly"
   }
 }
