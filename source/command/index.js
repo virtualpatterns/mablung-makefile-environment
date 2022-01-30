@@ -2,7 +2,7 @@
 
 import '@virtualpatterns/mablung-source-map-support/install'
 
-import Command from 'commander'
+import { program as Command } from 'commander'
 import FileSystem from 'fs-extra'
 import Is from '@pwn/is'
 import Path from 'path'

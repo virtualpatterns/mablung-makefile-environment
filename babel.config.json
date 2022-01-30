@@ -2,8 +2,99 @@
   "presets": [
     "@virtualpatterns/babel-preset-mablung-makefile"
   ],
+  "overrides": [
+    {
+      "include": [
+        "source/**/*.cjs"
+      ],
+      "plugins": [
+        [
+          "@virtualpatterns/babel-plugin-mablung-replace-identifier",
+          {
+            "rule": [
+              {
+                "searchFor": "__filePath",
+                "replaceWith": "__filename"
+              },
+              {
+                "searchFor": "__folderPath",
+                "replaceWith": "__dirname"
+              },
+              {
+                "searchFor": "__require",
+                "replaceWith": "require"
+              }
+            ]
+          }
+        ]
+      ]
+    }
+  ],
+  "plugins": [
+    "@babel/plugin-syntax-import-meta",
+    [
+      "@virtualpatterns/babel-plugin-mablung-replace-identifier",
+      {
+        "rule": [
+          {
+            "searchFor": "__filePath",
+            "replaceWith": "__importIdentifier.fileURLToPath(import.meta.url)",
+            "parserOption": {
+              "sourceType": "module"
+            },
+            "addImport": [
+              {
+                "type": "default",
+                "source": "url",
+                "option": {
+                  "nameHint": "URL"
+                }
+              }
+            ]
+          },
+          {
+            "searchFor": "__folderPath",
+            "replaceWith": "__importIdentifier_1.dirname(__importIdentifier_0.fileURLToPath(import.meta.url))",
+            "parserOption": {
+              "sourceType": "module"
+            },
+            "addImport": [
+              {
+                "type": "default",
+                "source": "url",
+                "option": {
+                  "nameHint": "URL"
+                }
+              },
+              {
+                "type": "default",
+                "source": "path",
+                "option": {
+                  "nameHint": "Path"
+                }
+              }
+            ]
+          },
+          {
+            "searchFor": "__require",
+            "replaceWith": "__importIdentifier(import.meta.url)",
+            "parserOption": {
+              "sourceType": "module"
+            },
+            "addImport": [
+              {
+                "type": "named",
+                "name": "createRequire",
+                "source": "module"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  ],
   "env": {
-    "commonjs": {
+    "from-esmodule-to-commonjs": {
       "plugins": [
         [
           "@virtualpatterns/babel-plugin-mablung-replace-identifier",
@@ -43,71 +134,6 @@
             "targets": {
               "node": "current"
             }
-          }
-        ]
-      ]
-    },
-    "esmodule": {
-      "plugins": [
-        "@babel/plugin-syntax-import-meta",
-        [
-          "@virtualpatterns/babel-plugin-mablung-replace-identifier",
-          {
-            "rule": [
-              {
-                "searchFor": "__filePath",
-                "replaceWith": "__importIdentifier.fileURLToPath(import.meta.url)",
-                "parserOption": {
-                  "sourceType": "module"
-                },
-                "addImport": [
-                  {
-                    "type": "default",
-                    "source": "url",
-                    "option": {
-                      "nameHint": "URL"
-                    }
-                  }
-                ]
-              },
-              {
-                "searchFor": "__folderPath",
-                "replaceWith": "__importIdentifier_1.dirname(__importIdentifier_0.fileURLToPath(import.meta.url))",
-                "parserOption": {
-                  "sourceType": "module"
-                },
-                "addImport": [
-                  {
-                    "type": "default",
-                    "source": "url",
-                    "option": {
-                      "nameHint": "URL"
-                    }
-                  },
-                  {
-                    "type": "default",
-                    "source": "path",
-                    "option": {
-                      "nameHint": "Path"
-                    }
-                  }
-                ]
-              },
-              {
-                "searchFor": "__require",
-                "replaceWith": "__importIdentifier(import.meta.url)",
-                "parserOption": {
-                  "sourceType": "module"
-                },
-                "addImport": [
-                  {
-                    "type": "named",
-                    "name": "createRequire",
-                    "source": "module"
-                  }
-                ]
-              }
-            ]
           }
         ]
       ]
