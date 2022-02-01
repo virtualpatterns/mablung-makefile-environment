@@ -6,12 +6,12 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "include",
-    "release/command",
     ".eslintrc.json",
     "babel.config.json",
-    "get-header.js",
-    "makefile"
+    "include",
+    "makefile",
+    "release/command",
+    "release/library"
   ],
   "license": "GPL-3.0+",
   "name": "@virtualpatterns/mablung-makefile-environment",

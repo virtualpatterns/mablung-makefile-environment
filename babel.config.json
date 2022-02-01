@@ -21,8 +21,8 @@
                 "replaceWith": "__dirname"
               },
               {
-                "searchFor": "__require",
-                "replaceWith": "require"
+                "searchFor": "__resolve",
+                "replaceWith": "((...argument) => Promise.resolve(require.resolve.bind(require)(...argument)))"
               }
             ]
           }
@@ -76,16 +76,18 @@
             ]
           },
           {
-            "searchFor": "__require",
-            "replaceWith": "__importIdentifier(import.meta.url)",
+            "searchFor": "__resolve",
+            "replaceWith": "((...argument) => import.meta.resolve(...argument).then((url) => __importIdentifier.fileURLToPath(url)))",
             "parserOption": {
               "sourceType": "module"
             },
             "addImport": [
               {
-                "type": "named",
-                "name": "createRequire",
-                "source": "module"
+                "type": "default",
+                "source": "url",
+                "option": {
+                  "nameHint": "URL"
+                }
               }
             ]
           }
@@ -109,8 +111,8 @@
                 "replaceWith": "__dirname"
               },
               {
-                "searchFor": "__require",
-                "replaceWith": "require"
+                "searchFor": "__resolve",
+                "replaceWith": "((...argument) => Promise.resolve(require.resolve.bind(require)(...argument)))"
               }
             ]
           }

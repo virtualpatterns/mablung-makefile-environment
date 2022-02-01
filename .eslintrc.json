@@ -3,6 +3,6 @@
   "globals": {
     "__filePath": "readonly",
     "__folderPath": "readonly",
-    "__require": "readonly"
+    "__resolve": "readonly"
   }
 }

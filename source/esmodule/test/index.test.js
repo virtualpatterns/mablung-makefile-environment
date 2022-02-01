@@ -26,8 +26,8 @@ Test('./resource/path.js', async (test) => {
   test.is((await import(test.title)).Path, test.title)
 })
 
-Test('./resource/require.js', async (test) => {
-  test.is((await import(test.title)).FilePath, Path.resolve(FolderPath, './resource/file-path.js'))
+Test('./resource/resolve.js', async (test) => {
+  test.is(await import(test.title).then((module) => module.FilePath).then((path) => path), Path.resolve(FolderPath, './resource/file-path.js'))
 })
 
 ;(EmptyPathExists ? Test : Test.skip)('./resource/empty', async (test) => {
