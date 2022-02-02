@@ -1,1 +1,1 @@
-export const FilePath = __resolve('./file-path.js')
+export function GetFilePath() { return __resolve('./file-path-0.js') }

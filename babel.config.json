@@ -22,7 +22,7 @@
               },
               {
                 "searchFor": "__resolve",
-                "replaceWith": "((...argument) => Promise.resolve(require.resolve.bind(require)(...argument)))"
+                "replaceWith": "((...argument) => Promise.resolve(require.resolve(...argument)))"
               }
             ]
           }
@@ -75,19 +75,33 @@
               }
             ]
           },
+          // {
+          //   "searchFor": "__resolve",
+          //   "replaceWith": "((...argument) => import.meta.resolve(...argument).then((url) => __importIdentifier.fileURLToPath(url)))",
+          //   "parserOption": {
+          //     "sourceType": "module"
+          //   },
+          //   "addImport": [
+          //     {
+          //       "type": "default",
+          //       "source": "url",
+          //       "option": {
+          //         "nameHint": "URL"
+          //       }
+          //     }
+          //   ]
+          // }
           {
             "searchFor": "__resolve",
-            "replaceWith": "((...argument) => import.meta.resolve(...argument).then((url) => __importIdentifier.fileURLToPath(url)))",
+            "replaceWith": "((...argument) => Promise.resolve(__importIdentifier(import.meta.url).resolve(...argument)))",
             "parserOption": {
               "sourceType": "module"
             },
             "addImport": [
               {
-                "type": "default",
-                "source": "url",
-                "option": {
-                  "nameHint": "URL"
-                }
+                "type": "named",
+                "source": "module",
+                "name": "createRequire"
               }
             ]
           }

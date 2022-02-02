@@ -14,7 +14,11 @@ Test('./resource/index.json', async (test) => {
   test.true((await FileSystem.readJson(Path.resolve(FolderPath, test.title), { 'encoding': 'utf-8' })).OK)
 })
 
-Test('./resource/file-path.js', async (test) => {
+Test('./resource/file-path-0.js', async (test) => {
+  test.is((await import(test.title)).FilePath, Path.resolve(FolderPath, test.title))
+})
+
+Test('./resource/file-path-1.cjs', async (test) => {
   test.is((await import(test.title)).FilePath, Path.resolve(FolderPath, test.title))
 })
 
@@ -26,8 +30,8 @@ Test('./resource/path.js', async (test) => {
   test.is((await import(test.title)).Path, test.title)
 })
 
-Test('./resource/resolve.js', async (test) => {
-  test.is(await import(test.title).then((module) => module.FilePath).then((path) => path), Path.resolve(FolderPath, './resource/file-path.js'))
+Test.only('./resource/resolve.js', async (test) => {
+  test.is(await import(test.title).then((module) => module.GetFilePath()), Path.resolve(FolderPath, './resource/file-path-0.js'))
 })
 
 ;(EmptyPathExists ? Test : Test.skip)('./resource/empty', async (test) => {
