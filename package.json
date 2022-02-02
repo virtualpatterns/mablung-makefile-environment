@@ -41,6 +41,6 @@
     "@virtualpatterns/mablung-check-dependency": "0.0.26-56",
     "@virtualpatterns/mablung-worker": "0.0.2-115",
     "ava": "^4.0.1",
-    "sinon": "^13.0.0"
+    "sinon": "^13.0.1"
   }
 }
