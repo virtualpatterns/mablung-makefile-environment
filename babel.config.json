@@ -110,7 +110,7 @@
               },
               {
                 "searchFor": "__resolve",
-                "replaceWith": "((...argument) => Promise.resolve(require.resolve.bind(require)(...argument)))"
+                "replaceWith": "((...argument) => Promise.resolve(require.resolve(...argument)))"
               }
             ]
           }
