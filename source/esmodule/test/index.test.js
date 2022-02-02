@@ -30,7 +30,7 @@ Test('./resource/path.js', async (test) => {
   test.is((await import(test.title)).Path, test.title)
 })
 
-Test.only('./resource/resolve.js', async (test) => {
+Test('./resource/resolve.js', async (test) => {
   test.is(await import(test.title).then((module) => module.GetFilePath()), Path.resolve(FolderPath, './resource/file-path-0.js'))
 })
 

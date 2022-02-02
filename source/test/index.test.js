@@ -70,10 +70,10 @@ Test('../path.js', async (test) => {
   test.is((await import(test.title)).Path, './path.js')
 })
 
-Test.only('../resolve.cjs', async (test) => {
+Test('../resolve.cjs', async (test) => {
   test.is(await import(test.title).then((module) => module.GetFilePath()), Path.resolve(FolderPath, '../file-path-0.cjs'))
 })
 
-Test.only('../resolve.js', async (test) => {
+Test('../resolve.js', async (test) => {
   test.is(await import(test.title).then((module) => module.GetFilePath()), Path.resolve(FolderPath, '../file-path-0.js'))
 })
