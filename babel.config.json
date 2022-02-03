@@ -77,15 +77,17 @@
           },
           {
             "searchFor": "__resolve",
-            "replaceWith": "((...argument) => Promise.resolve(__importIdentifier(import.meta.url).resolve(...argument)))",
+            "replaceWith": "((...argument) => import.meta.resolve(...argument).then((url) => __importIdentifier.fileURLToPath(url)))",
             "parserOption": {
               "sourceType": "module"
             },
             "addImport": [
               {
-                "type": "named",
-                "source": "module",
-                "name": "createRequire"
+                "type": "default",
+                "source": "url",
+                "option": {
+                  "nameHint": "URL"
+                }
               }
             ]
           }
