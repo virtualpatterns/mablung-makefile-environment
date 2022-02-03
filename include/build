@@ -4,8 +4,12 @@ include $(mablung-makefile-path)/include/build
 ifndef current-clean-folder
 ifndef current-build-folder
 
+ifneq ($(wildcard source/esmodule),)
+
 build-0::
 	@npx babel --copy-files --env-name from-esmodule-to-commonjs --extensions .cjs,.js --out-dir release/commonjs --out-file-extension .cjs --quiet --source-maps true $(babel-parameter) source/esmodule
+
+endif
 
 else ifeq ($(findstring source/esmodule,$(current-build-folder)),source/esmodule)
 
