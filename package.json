@@ -38,7 +38,7 @@
   "type": "module",
   "version": "0.0.26-57",
   "dependencies": {
-    "@babel/cli": "^7.17.3",
+    "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.5",
     "@babel/plugin-syntax-import-meta": "^7.10.4",
     "@babel/preset-env": "^7.16.11",
@@ -49,7 +49,7 @@
     "@virtualpatterns/eslint-config-mablung-makefile": "0.0.26-105",
     "@virtualpatterns/mablung-makefile": "0.0.26-236",
     "commander": "^9.0.0",
-    "fs-extra": "^10.0.0",
+    "fs-extra": "^10.0.1",
     "shx": "^0.3.4"
   },
   "devDependencies": {
