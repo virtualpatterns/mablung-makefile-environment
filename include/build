@@ -50,6 +50,10 @@ ignore::
 	$(if $(is-verbose),@echo ignore .... $(current-source-folder))
 	@npx shx rm -Rf $(patsubst release/esmodule/%,release/commonjs/%,$(current-release-folder))
 
+debug::
+	$(info build-commonjs-file ...... $(build-commonjs-file))
+	$(info ----------------------------------------)
+
 endif
 
 else ifeq ($(current-source-folder),source)
