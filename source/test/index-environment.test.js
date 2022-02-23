@@ -1,8 +1,7 @@
 import Path from 'path'
 import Test from 'ava'
-import URL from 'url'
 
-const FolderPath = Path.dirname(URL.fileURLToPath(import.meta.url))
+const FolderPath = __folderPath
 const Process = process
 
 Test('MAKEFILE_PATH', (test) => {

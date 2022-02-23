@@ -3,6 +3,10 @@
   "bin": "./release/command/index.js",
   "description": "TBD",
   "exports": {
+    "./test": {
+      "import": "./release/esmodule/test/index.js",
+      "require": "./release/commonjs/test/index.cjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -11,6 +15,18 @@
     "include",
     "makefile",
     "release/command",
+    "release/commonjs/test/index.cjs",
+    "release/commonjs/test/index.cjs.map",
+    "release/commonjs/test/library/create-id.cjs",
+    "release/commonjs/test/library/create-id.cjs.map",
+    "release/commonjs/test/library/path-exists.cjs",
+    "release/commonjs/test/library/path-exists.cjs.map",
+    "release/esmodule/test/index.js",
+    "release/esmodule/test/index.js.map",
+    "release/esmodule/test/library/create-id.js",
+    "release/esmodule/test/library/create-id.js.map",
+    "release/esmodule/test/library/path-exists.js",
+    "release/esmodule/test/library/path-exists.js.map",
     "release/library"
   ],
   "license": "GPL-3.0+",
@@ -22,25 +38,25 @@
   "type": "module",
   "version": "0.0.26-57",
   "dependencies": {
-    "@babel/cli": "^7.17.0",
-    "@babel/core": "^7.17.0",
+    "@babel/cli": "^7.17.3",
+    "@babel/core": "^7.17.5",
     "@babel/plugin-syntax-import-meta": "^7.10.4",
     "@babel/preset-env": "^7.16.11",
     "@pwn/is": "^1.0.2",
-    "@virtualpatterns/babel-plugin-mablung-replace-identifier": "0.0.26-38",
-    "@virtualpatterns/babel-plugin-mablung-replace-string-literal": "0.0.26-36",
-    "@virtualpatterns/babel-preset-mablung-makefile": "0.0.26-80",
-    "@virtualpatterns/eslint-config-mablung-makefile": "0.0.26-79",
-    "@virtualpatterns/mablung-makefile": "0.0.26-181",
-    "@virtualpatterns/mablung-source-map-support": "0.0.26-65",
+    "@virtualpatterns/babel-plugin-mablung-replace-identifier": "0.0.26-58",
+    "@virtualpatterns/babel-plugin-mablung-replace-string-literal": "0.0.26-56",
+    "@virtualpatterns/babel-preset-mablung-makefile": "0.0.26-110",
+    "@virtualpatterns/eslint-config-mablung-makefile": "0.0.26-105",
+    "@virtualpatterns/mablung-makefile": "0.0.26-236",
     "commander": "^9.0.0",
     "fs-extra": "^10.0.0",
     "shx": "^0.3.4"
   },
   "devDependencies": {
-    "@virtualpatterns/mablung-check-dependency": "0.0.26-58",
+    "@virtualpatterns/mablung-check-dependency": "0.0.26-89",
     "@virtualpatterns/mablung-worker": "0.0.2-115",
     "ava": "^4.0.1",
-    "sinon": "^13.0.1"
+    "sinon": "^13.0.1",
+    "source-map-support": "^0.5.21"
   }
 }

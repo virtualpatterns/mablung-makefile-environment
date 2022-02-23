@@ -1,8 +1,8 @@
 
 include $(mablung-makefile-path)/include/common
 
-ifndef current-build-folder
-ifndef current-clean-folder
+ifneq ($(is-building),true)
+ifneq ($(is-cleaning),true)
 
 ifeq ($(project-name),mablung-makefile-environment)
 

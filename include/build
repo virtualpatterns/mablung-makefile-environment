@@ -1,92 +1,63 @@
 
 include $(mablung-makefile-path)/include/build
 
-ifndef current-clean-folder
-ifndef current-build-folder
+ifneq ($(is-cleaning),true)
 
-ifneq ($(wildcard source/esmodule),)
+ifeq ($(findstring source/esmodule,$(current-source-folder)),source/esmodule)
 
-build-0::
-	@npx babel --copy-files --env-name from-esmodule-to-commonjs --extensions .cjs,.js --out-dir release/commonjs --out-file-extension .cjs --quiet --source-maps true $(babel-parameter) source/esmodule
-
-endif
-
-else ifeq ($(findstring source/esmodule,$(current-build-folder)),source/esmodule)
-
-build-commonjs-item = $(patsubst $\
+build-commonjs-file = $(patsubst $\
 												release/esmodule/%,$\
 												release/commonjs/%,$\
 												$(patsubst $\
 													%.js,$\
 													%.cjs,$\
-													$(build-item)))
+													$(build-file)))
 
-build:: $(build-commonjs-item)
+build:: $(build-commonjs-file)
 	@:
 
 # this rule replaces the same rule in the included makefile
 release/%.create:
-	$(if $(verbose),@echo create .... $(patsubst %.create,%,$@))
+	$(if $(is-verbose),@echo create .... $(patsubst %.create,%,$@))
 	@npx shx mkdir -p $(patsubst %.create,%,$@)
-	$(if $(verbose),@echo create .... $(patsubst release/esmodule/%,release/commonjs/%,$(patsubst %.create,%,$@)))
+	$(if $(is-verbose),@echo create .... $(patsubst release/esmodule/%,release/commonjs/%,$(patsubst %.create,%,$@)))
 	@npx shx mkdir -p $(patsubst release/esmodule/%,release/commonjs/%,$(patsubst %.create,%,$@))
 
-# release/commonjs/.DS_Store: source/esmodule/.DS_Store
-# 	$(if $(verbose),@echo ignore .... $<)
-# release/commonjs/%/.DS_Store: source/esmodule/%/.DS_Store
-# 	$(if $(verbose),@echo ignore .... $<)
-# release/commonjs/.babelrc.json: source/esmodule/.babelrc.json
-# 	$(if $(verbose),@echo ignore .... $<)
-# release/commonjs/%/.babelrc.json: source/esmodule/%/.babelrc.json
-# 	$(if $(verbose),@echo ignore .... $<)
-# release/commonjs/.eslintrc.json: source/esmodule/.eslintrc.json
-# 	$(if $(verbose),@echo ignore .... $<)
-# release/commonjs/%/.eslintrc.json: source/esmodule/%/.eslintrc.json
-# 	$(if $(verbose),@echo ignore .... $<)
-
-$(foreach	item,\
-					.DS_Store .babelrc.json .eslintrc.json,\
-					$(eval release/commonjs/$(item):source/esmodule/$(item);$(if $(verbose),@echo ignore .... $$<)))
-
-$(foreach	item,\
-					.DS_Store .babelrc.json .eslintrc.json,\
-					$(eval release/commonjs/%/$(item):source/esmodule/%/$(item);$(if $(verbose),@echo ignore .... $$<)))
-
 release/commonjs/%.cjs: source/esmodule/%.cjs
-	@echo compile ... $@ $(babel-parameter) --env-name from-esmodule-to-commonjs
-	@npx babel $< --out-file $@ --source-maps true $(babel-parameter) --env-name from-esmodule-to-commonjs
+	@echo compile ... $@ --env-name from-esmodule-to-commonjs $(babel-parameter)
+	@npx babel $< --out-file $@ --env-name from-esmodule-to-commonjs --source-maps true $(babel-parameter)
 
 release/commonjs/%.cjs: source/esmodule/%.js
-	@echo compile ... $@ $(babel-parameter) --env-name from-esmodule-to-commonjs
-	@npx babel $< --out-file $@ --source-maps true $(babel-parameter) --env-name from-esmodule-to-commonjs
+	@echo compile ... $@ --env-name from-esmodule-to-commonjs $(babel-parameter)
+	@npx babel $< --out-file $@ --env-name from-esmodule-to-commonjs --source-maps true $(babel-parameter)
 
 release/commonjs/%: source/esmodule/%
-	$(if $(verbose),@echo copy ...... $@)
-	@npx shx cp -R $< $(call trim-folder-path,$@)
+	@echo copy ...... $@
+	@npx shx cp -R $< $(call get-folder,$@)
 
-ifeq ($(findstring source/esmodule/,$(current-build-folder)),source/esmodule/)
+ifeq ($(findstring source/esmodule/,$(current-source-folder)),source/esmodule/)
 
 # these rules are executed after the same rules in the included makefile
 
 copy::
-	$(if $(verbose),@echo copy ...... $(patsubst source/esmodule/%,release/commonjs/%,$(current-build-folder)))
-	@npx shx rm -Rf $(patsubst source/esmodule/%,release/commonjs/%,$(current-build-folder))
-	@npx shx cp -R $(current-build-folder) $(call trim-folder-path,$(patsubst source/esmodule/%,release/commonjs/%,$(current-build-folder)))
-	$(if $(verbose),@echo delete .... $(patsubst source/esmodule/%,release/commonjs/%,$(current-build-folder))/makefile)
-	@npx shx rm -f $(patsubst source/esmodule/%,release/commonjs/%,$(current-build-folder))/makefile
+	$(if $(is-verbose),@echo copy ...... $(patsubst release/esmodule/%,release/commonjs/%,$(current-release-folder)))
+	@npx shx rm -Rf $(patsubst release/esmodule/%,release/commonjs/%,$(current-release-folder))
+	@npx shx cp -R $(current-source-folder) $(call get-folder,$(patsubst release/esmodule/%,release/commonjs/%,$(current-release-folder)))
+	$(if $(is-verbose),@echo delete .... $(patsubst release/esmodule/%,release/commonjs/%,$(current-release-folder))/makefile)
+	@npx shx rm -f $(patsubst release/esmodule/%,release/commonjs/%,$(current-release-folder))/makefile
 
 ignore::
-	$(if $(verbose),@echo ignore ....$(patsubst source/esmodule/%,release/commonjs/%,$(current-build-folder)))
-	@npx shx rm -Rf $(patsubst source/esmodule/%,release/commonjs/%,$(current-build-folder))
+	$(if $(is-verbose),@echo ignore .... $(current-source-folder))
+	@npx shx rm -Rf $(patsubst release/esmodule/%,release/commonjs/%,$(current-release-folder))
 
 endif
 
-else ifeq ($(current-build-folder),source)
+else ifeq ($(current-source-folder),source)
 
 release/esmodule.create:
-	$(if $(verbose),@echo create .... $(patsubst %.create,%,$@))
+	$(if $(is-verbose),@echo create .... $(patsubst %.create,%,$@))
 	@npx shx mkdir -p $(patsubst %.create,%,$@)
-	$(if $(verbose),@echo create .... $(subst release/esmodule,release/commonjs,$(patsubst %.create,%,$@)))
+	$(if $(is-verbose),@echo create .... $(subst release/esmodule,release/commonjs,$(patsubst %.create,%,$@)))
 	@npx shx mkdir -p $(subst release/esmodule,release/commonjs,$(patsubst %.create,%,$@))
 
 endif
