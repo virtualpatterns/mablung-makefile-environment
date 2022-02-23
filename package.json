@@ -36,7 +36,7 @@
     "url": "https://github.com/virtualpatterns/mablung-makefile-environment"
   },
   "type": "module",
-  "version": "0.0.26-58",
+  "version": "0.0.26-59",
   "dependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.5",
