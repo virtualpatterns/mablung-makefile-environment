@@ -50,6 +50,7 @@
     "@virtualpatterns/mablung-makefile": "0.0.26-240",
     "commander": "^9.0.0",
     "fs-extra": "^10.0.1",
+    "json5": "^2.2.0",
     "shx": "^0.3.4"
   },
   "devDependencies": {
