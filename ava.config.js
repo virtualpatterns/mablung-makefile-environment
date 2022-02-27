@@ -3,9 +3,6 @@ export default {
   'files': [
     'release/**/test/**/*.test.*'
   ],
-  "nodeArguments": [
-    "--experimental-import-meta-resolve"
-  ],
   'require': [],
   'verbose': true
 }
