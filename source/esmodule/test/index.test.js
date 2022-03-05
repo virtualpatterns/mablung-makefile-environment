@@ -1,4 +1,4 @@
-import { PathExists } from '@virtualpatterns/mablung-makefile-environment/test'
+import { PathCompare } from '@virtualpatterns/mablung-makefile-environment/test'
 import FileSystem from 'fs-extra'
 import Path from 'path'
 import Test from 'ava'
@@ -6,11 +6,11 @@ import Test from 'ava'
 const ReleaseFolderPath = __folderPath
 const SourceFolderPath = ReleaseFolderPath.replace('/release/', '/source/').replace('/commonjs/', '/esmodule/')
 
-const EmptyPathExists = FileSystem.pathExistsSync(Path.resolve(SourceFolderPath, 'resource/empty'))
+const EmptyPathCompare = FileSystem.pathExistsSync(Path.resolve(SourceFolderPath, 'resource/empty'))
 
 ;[
   'CreateId',
-  'PathExists'
+  'PathCompare'
 ].forEach((name) => {
 
   Test(name, async (test) => {
@@ -56,7 +56,7 @@ Test('../resolve.js', async (test) => {
 })
 
 Test('./resource/copy', async (test) => {
-  test.true(await PathExists(Path.resolve(SourceFolderPath, test.title), Path.resolve(ReleaseFolderPath, test.title), (sourcePath, targetPath) => /makefile$/.test(sourcePath) ? [] : [ targetPath ]).then(({ exists }) => exists))
+  test.true(await PathCompare(Path.resolve(SourceFolderPath, test.title), Path.resolve(ReleaseFolderPath, test.title), (sourcePath, targetPath) => /makefile$/.test(sourcePath) ? [] : [ targetPath ]).then(({ exists }) => exists))
 })
 
 Test('./resource/custom', async (test) => {
@@ -66,7 +66,7 @@ Test('./resource/custom', async (test) => {
   test.true(await FileSystem.pathExists(Path.resolve(ReleaseFolderPath, './resource/custom/folder/file')))
 })
 
-;(EmptyPathExists ? Test : Test.skip)('./resource/empty', async (test) => {
+;(EmptyPathCompare ? Test : Test.skip)('./resource/empty', async (test) => {
   test.true(await FileSystem.pathExists(Path.resolve(ReleaseFolderPath, test.title)))
 })
 
