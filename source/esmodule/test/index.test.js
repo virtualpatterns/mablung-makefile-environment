@@ -1,23 +1,13 @@
-import { PathCompare } from '@virtualpatterns/mablung-makefile-environment/test'
 import FileSystem from 'fs-extra'
 import Path from 'path'
 import Test from 'ava'
 
+import { PathCompare } from './library/path-compare.js'
+
 const ReleaseFolderPath = __folderPath
 const SourceFolderPath = ReleaseFolderPath.replace('/release/', '/source/').replace('/commonjs/', '/esmodule/')
 
-const EmptyPathCompare = FileSystem.pathExistsSync(Path.resolve(SourceFolderPath, 'resource/empty'))
-
-;[
-  'CreateId',
-  'PathCompare'
-].forEach((name) => {
-
-  Test(name, async (test) => {
-    test.truthy(await import('@virtualpatterns/mablung-makefile-environment/test').then((module) => module[name]))
-  })
-  
-})
+const EmptyPathExists = FileSystem.pathExistsSync(Path.resolve(SourceFolderPath, 'resource/empty'))
 
 Test('../.babelrc.json', async (test) => {
   test.false(await FileSystem.pathExists(Path.resolve(ReleaseFolderPath, test.title)))
@@ -66,7 +56,7 @@ Test('./resource/custom', async (test) => {
   test.true(await FileSystem.pathExists(Path.resolve(ReleaseFolderPath, './resource/custom/folder/file')))
 })
 
-;(EmptyPathCompare ? Test : Test.skip)('./resource/empty', async (test) => {
+;(EmptyPathExists ? Test : Test.skip)('./resource/empty', async (test) => {
   test.true(await FileSystem.pathExists(Path.resolve(ReleaseFolderPath, test.title)))
 })
 

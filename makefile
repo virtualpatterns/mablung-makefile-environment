@@ -18,16 +18,8 @@ ifneq ($(is-cleaning),true)
 
 pre-build::
 	$(info - pre-build ----------------------------)
-	$(if $(is-verbose),@echo copy .... )
-	@npx shx cp -R node_modules/@virtualpatterns/mablung-makefile/source/test/index.js source/esmodule/test
-	@npx shx cp -R node_modules/@virtualpatterns/mablung-makefile/source/test/library source/esmodule/test
-	@$(MAKE) --no-print-directory commit message=post-pre-build include-commit-item="..."
-
-pre-clean::
-	$(info - pre-clean ----------------------------)
-	$(if $(is-verbose),@echo delete .... )
-	@npx shx rm -Rf source/esmodule/test/index.js
-	@npx shx rm -Rf source/esmodule/test/library
+	@npx shx cp -u node_modules/@virtualpatterns/mablung-makefile/source/test/library/create-random-id.js source/esmodule/test/library
+	@npx shx cp -u node_modules/@virtualpatterns/mablung-makefile/source/test/library/path-compare.js source/esmodule/test/library
 
 endif
 endif

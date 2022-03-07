@@ -3,10 +3,6 @@
   "bin": "./release/command/index.js",
   "description": "TBD",
   "exports": {
-    "./test": {
-      "import": "./release/esmodule/test/index.js",
-      "require": "./release/commonjs/test/index.cjs"
-    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -15,21 +11,8 @@
     "include",
     "makefile",
     "release/command",
-    "release/commonjs/test/index.cjs",
-    "release/commonjs/test/index.cjs.map",
-    "release/commonjs/test/library/create-id.cjs",
-    "release/commonjs/test/library/create-id.cjs.map",
-    "release/commonjs/test/library/path-exists.cjs",
-    "release/commonjs/test/library/path-exists.cjs.map",
-    "release/esmodule/test/index.js",
-    "release/esmodule/test/index.js.map",
-    "release/esmodule/test/library/create-id.js",
-    "release/esmodule/test/library/create-id.js.map",
-    "release/esmodule/test/library/path-exists.js",
-    "release/esmodule/test/library/path-exists.js.map",
     "release/library",
-    "source/esmodule/test/index.js",
-    "source/esmodule/test/library/create-id.js",
+    "source/esmodule/test/library/create-random-id.js",
     "source/esmodule/test/library/path-compare.js"
   ],
   "license": "GPL-3.0+",
@@ -46,18 +29,18 @@
     "@babel/plugin-syntax-import-meta": "^7.10.4",
     "@babel/preset-env": "^7.16.11",
     "@pwn/is": "^1.0.2",
-    "@virtualpatterns/babel-plugin-mablung-replace-identifier": "0.0.26-78",
-    "@virtualpatterns/babel-plugin-mablung-replace-string-literal": "0.0.26-76",
-    "@virtualpatterns/babel-preset-mablung-makefile": "0.0.26-134",
-    "@virtualpatterns/eslint-config-mablung-makefile": "0.0.26-129",
-    "@virtualpatterns/mablung-makefile": "0.0.26-267",
+    "@virtualpatterns/babel-plugin-mablung-replace-identifier": "0.0.26-80",
+    "@virtualpatterns/babel-plugin-mablung-replace-string-literal": "0.0.26-78",
+    "@virtualpatterns/babel-preset-mablung-makefile": "0.0.26-136",
+    "@virtualpatterns/eslint-config-mablung-makefile": "0.0.26-131",
+    "@virtualpatterns/mablung-makefile": "0.0.26-269",
     "commander": "^9.0.0",
     "fs-extra": "^10.0.1",
     "json5": "^2.2.0",
     "shx": "^0.3.4"
   },
   "devDependencies": {
-    "@virtualpatterns/mablung-check-dependency": "0.0.26-109",
+    "@virtualpatterns/mablung-check-dependency": "0.0.26-111",
     "@virtualpatterns/mablung-worker": "0.0.2-115",
     "ava": "^4.1.0",
     "sinon": "^13.0.1",
