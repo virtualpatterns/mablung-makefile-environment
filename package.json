@@ -27,7 +27,10 @@
     "release/esmodule/test/library/create-id.js.map",
     "release/esmodule/test/library/path-exists.js",
     "release/esmodule/test/library/path-exists.js.map",
-    "release/library"
+    "release/library",
+    "source/esmodule/test/index.js",
+    "source/esmodule/test/library/create-id.js",
+    "source/esmodule/test/library/path-compare.js"
   ],
   "license": "GPL-3.0+",
   "name": "@virtualpatterns/mablung-makefile-environment",
