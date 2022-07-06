@@ -1,13 +1,24 @@
+import { PathCompare } from '@virtualpatterns/mablung-makefile-environment/test' // './library/path-compare.js'
 import FileSystem from 'fs-extra'
 import Path from 'path'
 import Test from 'ava'
-
-import { PathCompare } from './library/path-compare.js'
 
 const ReleaseFolderPath = __folderPath
 const SourceFolderPath = ReleaseFolderPath.replace('/release/', '/source/').replace('/commonjs/', '/esmodule/')
 
 const EmptyPathExists = FileSystem.pathExistsSync(Path.resolve(SourceFolderPath, 'resource/empty'))
+
+;[
+  'CreateRandomId',
+  'PathCompare'
+].forEach((name) => {
+
+  Test(name, async (test) => {
+    test.truthy(await import('@virtualpatterns/mablung-makefile-environment/test').then((module) => module[name]))
+  })
+  
+})
+
 
 Test('../.babelrc.json', async (test) => {
   test.false(await FileSystem.pathExists(Path.resolve(ReleaseFolderPath, test.title)))

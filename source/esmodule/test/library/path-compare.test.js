@@ -1,7 +1,6 @@
+import { PathCompare } from '@virtualpatterns/mablung-makefile-environment/test'
 import Path from 'path'
 import Test from 'ava'
-
-import { PathCompare } from './path-compare.js'
 
 const ReleaseFilePath = __filePath
 const ReleaseFolderPath = Path.dirname(ReleaseFilePath)
